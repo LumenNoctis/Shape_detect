@@ -21,6 +21,7 @@ typedef struct ShopMenu
 	Button Shop;
 	Button Resume;
 	Button SpellBook;
+	Button Home;
 	SDL_Texture *bg;
 
 	void *data;
@@ -61,6 +62,7 @@ typedef struct Context
 	PauseMenu pause;
 
 	int lvl;
+	int overlay;
 }			Context;
 
 #endif

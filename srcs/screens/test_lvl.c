@@ -1,10 +1,11 @@
 # include "rush.h"
 # include "MT_vec2.h"
 
-#define ERR_MARGIN 20
+#define ERR_MARGIN 22
 #define CMP_MARGIN 3
 #define NPATTERNS 8
-#define N_REPEAT_VALID 2
+#define N_REPEAT_VALID 3
+#define MIN_DELTA 1
 
 typedef struct Stroke
 {
@@ -102,7 +103,7 @@ int find(Stroke stroke)
 				return x;
 			}
 		}
-	return 0;
+	return -1;
 }
 
 int sanitizeData(Stroke stroke[1000],Stroke (*san)[1000],  int amount)
@@ -121,7 +122,7 @@ int sanitizeData(Stroke stroke[1000],Stroke (*san)[1000],  int amount)
 	{
 		// if (stroke[i].delta == 0)
 		// {
-			while (i < amount && stroke[i].delta == 0) {i++;}
+			while (i < amount && abs(stroke[i].delta) <= 3) {i++;}
 			// processed[n].angle = stroke[i].angle;
 			// angle = stroke[i].angle;
 			// // if (n > 0)
@@ -142,12 +143,12 @@ int sanitizeData(Stroke stroke[1000],Stroke (*san)[1000],  int amount)
 	diff = 0;
 	angle = processed[i].angle;
 	x = 0;
-	// 	while (i < n)
-	// {
-	// 	SDL_Log("Processed %f", processed[i].angle);
-	// 	i++;
-	// }
-	// i = 0;
+		while (i < n)
+	{
+		SDL_Log("Processed %f", processed[i].angle);
+		i++;
+	}
+	i = 0;
 	while (i < n)
 	{
 		// SDL_Log("Pass %d of %d", i , n);
@@ -189,6 +190,7 @@ void test_level(void *arg)
 	static int i = -1;
 	static int c;
 	static int n;
+	int aa;
 	SDLX_Input input;
 	static Stroke stroke[1000];
 	static Stroke predictions[1000];
@@ -208,7 +210,18 @@ void test_level(void *arg)
 			isdown = SDLX_TRUE;
 			stroke[n].start = input.mouse;
 			stroke[n].end = input.mouse;
-			predictions[n] = match[find(stroke[n])];
+			aa= find(stroke[n]);
+			SDL_Log("C %d", aa);
+			if (aa < 0)
+			{
+				if (n > 0)
+					predictions[n] = predictions[n - 1];
+				else
+					predictions[n] = match[0];
+			}
+			else
+				predictions[n] = match[aa];
+			SDL_Log("AAA ");
 			n++;
 		}
 		else if (isdown == SDLX_NONE)
@@ -223,8 +236,17 @@ void test_level(void *arg)
 		stroke[n].vec.y = stroke[n].end.y - stroke[n].start.y;
 		stroke[n].angle = MT_ToDegf(SDL_atan2f(stroke[n].vec.y, stroke[n].vec.x));
 
-		predictions[n] = match[find(stroke[n])];
-		predictions[n].delta = 1;
+		aa = find(stroke[n]);
+		if (aa < 0)
+			{
+				if (n > 0)
+					predictions[n] = predictions[n - 1];
+				else
+					predictions[n] = match[0];
+			}
+			else
+				predictions[n] = match[aa];
+		predictions[n].delta = input.mouse_delta.x;
 		if (input.mouse_delta.x == 0 && input.mouse_delta.y == 0)
 			predictions[n].delta = 0;
 		n++;

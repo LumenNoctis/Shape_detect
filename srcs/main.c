@@ -21,9 +21,9 @@ int main(void)
 		SDLX_ResetWindow();
 		SDLX_InputUpdate(e);
         SDLX_InputLoop();
-		SDLX_LevelRun();
 		SDLX_GUIUpdate();
 		SDLX_AnimationUpdate();
+		SDLX_LevelRun();
 
 		# ifdef DEBUG
 			debug(ctx);
