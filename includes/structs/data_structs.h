@@ -1,7 +1,9 @@
 #ifndef DATA_STRUCTS_H
 # define DATA_STRUCTS_H
 
-# include "SDLX/SDLX.h"
+# include "SDLX.h"
+
+# define MAX_ACTIVE_SPELLS 10
 
 typedef struct Enemy Enemy;
 typedef int (*EnemyFn)(Enemy *);
@@ -95,6 +97,8 @@ typedef struct PlayerData
 	int hp;
 	int mana;
 	int exp;
+	int maxHP;
+	int maxMana;
 }				PlayerData;
 
 #endif

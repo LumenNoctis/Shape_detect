@@ -48,3 +48,4 @@ int ExitClick(SDLX_GUIElem *elem)
 
 	return 0;
 }
+

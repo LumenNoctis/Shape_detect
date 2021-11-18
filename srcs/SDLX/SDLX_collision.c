@@ -1,4 +1,4 @@
-# include "SDLX/SDLX_collisions.h"
+# include "SDLX_collisions.h"
 
 static SDLX_Collision *_collisions;
 static SDLX_Collider  **_colliders;

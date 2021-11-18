@@ -1,7 +1,7 @@
 #ifndef SDLX_UTILS_H
 # define SDLX_UTILS_H
 
-# include "SDLX/SDLX_structs.h"
+# include "SDLX_structs.h"
 /*
 * Caps FPS to FRAMERATE and ensure app ticks are consitent
  */

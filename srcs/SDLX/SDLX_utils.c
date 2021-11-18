@@ -1,5 +1,5 @@
-#include "SDLX/SDLX_structs.h"
-#include "SDLX/SDLX_config.h"
+#include "SDLX_structs.h"
+#include "SDLX_config.h"
 # include "SDL2/SDL_image.h"
 
 void SDLX_FPSAdjust()

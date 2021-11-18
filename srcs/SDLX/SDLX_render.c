@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "SDLX.h"
 
 # define QUEUE_CT 3
 
@@ -28,14 +28,8 @@ void SDLX_RenderInit(void)
 	}
 }
 
-extern SDLX_Animator *a;
-
-void	SDLX_ResetWindow(void)
+void	SDLX_ResetWindow(SDLX_Display *display)
 {
-	SDLX_Display *display;
-
-	display = SDLX_DisplayGet();
-
 	SDL_RenderClear(display->renderer);
 	SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0);
 	if (display->background)

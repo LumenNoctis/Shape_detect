@@ -1,6 +1,6 @@
 #ifndef SDLX_UI_H
 # define SDLX_UI_H
-# include "SDLX/SDLX_structs.h"
+# include "SDLX_structs.h"
 
 
 void SDLX_GUIElem_Create(SDLX_GUIElem *dest,

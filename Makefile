@@ -23,6 +23,7 @@ BIN_DIR = bin/
 SDLX_NAMES = 			\
 	SDLX_anim			\
 	SDLX_collision		\
+	SDLX_editor			\
 	SDLX_input			\
 	SDLX_LevelManager	\
 	SDLX_render			\
@@ -34,26 +35,34 @@ MT_NAMES = 				\
 	MT_v2				\
 	MT					\
 
+AREAS_NAMES = 			\
+	areas_init			\
+
 BUTTON_NAMES =			\
 	b_main_level		\
 	b_main_menu			\
 
+ENEMY_NAMES = 			\
+	enemies_fn			\
+
+INIT_NAMES = 			\
+	init_buttons		\
+	init_enemies		\
+	init_game			\
+	init_level			\
+	init_spells			\
+
 SCREEN_NAMES =			\
 	main_level			\
 	main_menu			\
+	start_menu			\
 	test_lvl			\
+	utils				\
 
 SPELL_NAMES =			\
 	fireball			\
-	spells_init			\
 	spells_utils		\
 
-ENEMY_NAMES = 			\
-	enemies_fn			\
-	enemies_init		\
-
-AREAS_NAMES = 			\
-	areas_init			\
 
 SRCS_NAMES =									\
 	$(addprefix $(SDLX_DIR),	$(SDLX_NAMES))	\
@@ -78,7 +87,10 @@ SRCS = $(addsuffix .c, $(C_FILES))
 
 OBJS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
-all: $(NAME)
+all : $(NAME)
+
+editor :
+	gcc $(FLAGS) $(INCLUDES) -o editor srcs/editor_main.c srcs/SDLX/*.c	$(LIBRARIES)
 
 $(NAME): $(BIN_DIR) $(OBJS)
 	gcc $(FLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBRARIES)
@@ -100,3 +112,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+e_clean :
+	rm -f editor
+e_re : e_clean editor

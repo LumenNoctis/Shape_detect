@@ -1,4 +1,4 @@
-#include "SDLX/SDLX_input.h"
+#include "SDLX_input.h"
 
 
 // These variables to be only visible within this file

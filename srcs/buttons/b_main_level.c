@@ -54,3 +54,62 @@ int DrawButtonTrigger(SDLX_GUIElem *elem)
 
 	return 0;
 }
+
+int PauseGame(SDLX_GUIElem *elem)
+{
+	Context *ctx;
+
+	ctx = getCtx();
+
+	StopGame(ctx);
+	ctx->overlay = 1;
+	ctx->level.Pause.elem.active = SDLX_FALSE;
+	ctx->pause.Home.elem.active = SDLX_TRUE;
+	ctx->pause.Shop.elem.active = SDLX_TRUE;
+	ctx->pause.Resume.elem.active = SDLX_TRUE;
+	ctx->pause.SpellBook.elem.active = SDLX_TRUE;
+}
+
+int UnpauseGame(SDLX_GUIElem *elem)
+{
+	Context *ctx;
+
+	ctx = getCtx();
+
+	ResumeGame(ctx);
+	ctx->overlay = 0;
+	ctx->level.Pause.elem.active = SDLX_TRUE;
+	ctx->pause.Home.elem.active = SDLX_FALSE;
+	ctx->pause.Shop.elem.active = SDLX_FALSE;
+	ctx->pause.Resume.elem.active = SDLX_FALSE;
+	ctx->pause.SpellBook.elem.active = SDLX_FALSE;
+
+}
+
+void ShowShop(SDLX_GUIElem *elem)
+{
+	Context *ctx;
+
+	ctx = getCtx();
+
+	StopGame(ctx);
+	ctx->level.Pause.elem.active = SDLX_FALSE;
+
+	ctx->shop.back.elem.active = SDLX_TRUE;
+	ctx->shop.reroll.elem.active = SDLX_TRUE;
+}
+
+void HideShop(SDLX_GUIElem *elem)
+{
+	Context *ctx;
+
+	ctx = getCtx();
+
+	ResumeGame(ctx);
+
+	ctx->level.Pause.elem.active = SDLX_TRUE;
+
+	ctx->shop.back.elem.active = SDLX_FALSE;
+	ctx->shop.reroll.elem.active = SDLX_FALSE;
+}
+

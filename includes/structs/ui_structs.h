@@ -1,7 +1,7 @@
 #ifndef UI_STRUCTS_H
 # define UI_STRUCTS_H
 
-#include "../SDLX/SDLX.h"
+#include "SDLX.h"
 
 typedef struct Button
 {

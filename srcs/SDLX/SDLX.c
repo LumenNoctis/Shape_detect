@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "SDLX.h"
 
 /**
  * WIll need to change some ints to bools, but maybe not

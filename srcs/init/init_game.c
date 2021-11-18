@@ -27,8 +27,8 @@ Context *init_game(void)
 	// SDLX_BackgroundSet(tex);
 
 	// SDLX_LevelManagerAdd(0, main_menuInit, main_menu, main_menuCleanup);
-	// SDLX_LevelManagerAdd(0, main_levelInit, main_level, main_levelCleanup);
-	SDLX_LevelManagerAdd(0, test_levelInit, test_level, test_levelCleanup);
+	SDLX_LevelManagerAdd(0, main_levelInit, main_level, main_levelCleanup);
+	// SDLX_LevelManagerAdd(0, test_levelInit, test_level, test_levelCleanup);
 	// SDLX_LevelManagerAdd(2, test_levelInit, test_level, test_levelCleanup);
 	SDLX_LevelManagerStart(0, &ctx);
 	SDL_Log("Init Game\n");

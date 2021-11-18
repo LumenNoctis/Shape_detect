@@ -12,7 +12,7 @@ int main(void)
 	SDL_Log("Starting up\n");
 	ctx = init_game();
 	display = SDLX_DisplayGet();
-		SDLX_LevelRun();
+	SDLX_LevelRun();
 	// SDL_Log("ORI start%p", a->spriteptr->dstptr);
 	// SDL_Log("ORI D %p R %p", display, display->renderer);
 

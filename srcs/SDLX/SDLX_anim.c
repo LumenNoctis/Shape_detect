@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "SDLX.h"
 #include "SDL2/SDL_image.h"
 
 # define ANIMS_CT 5

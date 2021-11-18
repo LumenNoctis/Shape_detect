@@ -4,6 +4,7 @@
 # include "core_structs.h"
 # include "buttons.h"
 # include "enemies.h"
+# include "spells.h"
 
 # define STARTX 230
 # define STARTY 769
@@ -53,13 +54,13 @@ void	CopySpell(Spell *src, Spell *dst);
 void	renderSprites(void);
 void	flushSprites(void);
 
-int 	initSpells();
-int 	initSpellData(void);
-int 	Fireball(Spell *spell);
-int 	NoSpellFn(Spell *spell);
 
-SDL_bool spell_collide(SDLX_Collider *self, SDLX_Collider *other);
-void	fireball_react(SDLX_Collider *self, SDLX_Collider *other);
+void	init_pause(SDL_Texture *pauseTex, Context *ctx);
+
+
+void ResumeGame(Context *ctx);
+void StopGame(Context *ctx);
+void ResetLevel();
 
 // void	CollisionCheck(Enemy *enemies, int nenemies, Spell *spells, int nspells);
 

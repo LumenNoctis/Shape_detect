@@ -17,11 +17,8 @@ typedef struct PauseMenu
 
 typedef struct ShopMenu
 {
-	SDLX_Sprite reroll;
-	Button Shop;
-	Button Resume;
-	Button SpellBook;
-	Button Home;
+	Button back;
+	Button reroll;
 	SDL_Texture *bg;
 
 	void *data;
@@ -42,13 +39,27 @@ typedef struct SpellBook
 typedef struct MainLevel
 {
 	Button Pause;
-	Button Shop;
 
 	Area *area;
+	Enemy enemies[100];
 
 	int drawing;
 	int state;
 }			MainLevel;
+
+typedef struct MainMenu
+{
+	Button 		Start;
+	Button		Spells;
+	Button		Back;
+}				MainMenu;
+
+typedef struct StartMenu
+{
+	Button		LoadSave;
+	Button		NewGame;
+	Button		exit;// ?
+}				StartMenu;
 
 typedef struct Context
 {
@@ -56,6 +67,8 @@ typedef struct Context
 	Enemy		enemy_data[50];
 	PlayerData	player;
 
+	StartMenu startMenu;
+	MainMenu mainMenu;
 	MainLevel level;
 	SpellBook book;
 	ShopMenu shop;

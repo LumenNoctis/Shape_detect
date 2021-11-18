@@ -1,60 +1,6 @@
 # include "rush.h"
 
-void main_levelInit(void *arg)
-{
-	SDLX_Anim	**a_beam;
 
-	SDL_Texture *t_beam;
-	SDL_Texture *t_pause;
-	SDL_Texture *t_scroll;
-	SDL_Rect scroll;
-	SDL_Rect pause_src;
-	SDL_Rect pause_dst;
-	SDL_Rect beamrect;
-	SDL_Rect dst;
-
-	Context *ctx;
-	int i;
-
-	ctx = getCtx();
-	t_beam = SDLX_LoadTexture("Assets/Spells/DrawBeam.png", SDLX_DisplayGet());
-	t_scroll = SDLX_LoadTexture("Assets/scroll.png", SDLX_DisplayGet());
-	t_pause = SDLX_LoadTexture("Assets/UI/LevelOver.png", SDLX_DisplayGet());
-
-	a_beam = calloc(1, sizeof(SDLX_Anim *));
-	a_beam[0] = SDLX_AnimLoadVertical(t_beam, 8, 128, 16, SDL_TRUE, 0, 0);
-
-	pause_src.x = 160;
-	pause_src.h = 28;
-	pause_src.w = 32;
-
-	pause_src.x = 160;
-	pause_src.h = 28;
-	pause_src.w = 32;
-
-
-
-	scroll.h = 128 * 2.25;
-	scroll.w = 64 *2.25;
-	scroll.x = WIN_W - scroll.w - 10;
-	scroll.y = WIN_H - scroll.h ;
-
-	initSpells();
-	initSpellData();
-
-
-	dst.h = 10;
-	dst.w = 0;
-
-	ctx->level.drawing = SDLX_FALSE;
-
-	// init_pause();
-
-	init_enemies();
-	init_enemyData();
-	ctx->level.area = loadArea(0);
-	NextWave(ctx->level.area);
-}
 
 void main_level(void *arg)
 {

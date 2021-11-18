@@ -2,7 +2,7 @@
 # define SDLX_ANIM_H
 
 
-#include "SDLX/SDLX_structs.h"
+#include "SDLX_structs.h"
 
 void			SDLX_AnimationUpdate(void);
 void			SDLX_Animator_StateSet(SDLX_Animator *anim,int newState, int awaitCurrent);
