@@ -1,66 +1,74 @@
-#include "SDLX_structs.h"
-#include "SDLX_config.h"
-# include "SDL2/SDL_image.h"
+#include "SDLX/SDLX.h"
 
-void SDLX_FPSAdjust()
+static SDLX_Time _intern_time;
+
+void		SDLX_Sprite_Create(SDLX_Sprite *dest, uint32_t layer, SDL_Texture *texture)
 {
-	static int start;
-	int delay;
-
-	// This if statement else first frame is delayed by > 1000 ms
-	// Workaround is to pass start time but requires variable from outside func
-	// Somehow set start to an appropriate starting value
-	// This only slows game if it is rendering too fast - but it also halts loop
-	// Need to :  if too fast render extra frames of non animated things
-	// Render less if too slow
-	if (start != 0)
-	{
-		delay = start - SDL_GetTicks();
-		delay = MAX(FRAME_TIME - delay , 0);
-		SDL_Delay(delay);
-	}
-	start = SDL_GetTicks();
+	SDL_memset(dest, 0, sizeof(SDLX_Sprite));
+	if (dest == NULL)
+		return ;
+	dest->texture = texture;
+	dest->primary_Layer = layer;
+	dest->src = &(dest->_src);
+	dest->dst = &(dest->_dst);
+	dest->angle = 0;
+	dest->center = NULL;
+	dest->flip = SDL_FLIP_NONE;
 }
 
-SDL_Texture *SDLX_LoadTexture(char *path, SDLX_Display *display)
+SDL_Texture	*SDLX_Texture_Load(char *path, SDLX_Display *display)
 {
 	return 	SDL_CreateTextureFromSurface(display->renderer, IMG_Load(path));
-}
-
-//?????????\
-//How do??
-void SDLX_SpriteCreate(SDLX_Sprite *spriteDst, SDL_Texture *tex, SDL_Rect *src, SDL_Rect *dst)
-{
-	if (dst)
-		spriteDst->_dst = *dst;
-	if (src)
-		spriteDst->_src = *src;
-	spriteDst->dst = &spriteDst->_dst;
-	spriteDst->src = &spriteDst->_src;
-	if (tex)
-		spriteDst->sprite_sheet = tex;
-	spriteDst->center = NULL;
-}
-
-int	SDLX_MouseInRect(int x, int y, SDL_Rect rect)
-{
-	if (rect.x <= x && x <= (rect.x + rect.w) &&
-		rect.y <= y && y <= (rect.y + rect.h))
-		return SDLX_TRUE;
-	return SDLX_FALSE;
 }
 
 int SDLX_PointInCircle(SDL_Point point, SDLX_Circle circle)
 {
 	return (
-			point.x <= circle.x + circle.radius
-		&&	point.x >= circle.x - circle.radius
-		&&	point.y <= circle.y + circle.radius
-		&&	point.y >= circle.y - circle.radius
+		point.x <= circle.center.x + circle.radius &&
+		point.x >= circle.center.x - circle.radius &&
+		point.y <= circle.center.y + circle.radius &&
+		point.y >= circle.center.y - circle.radius
 	);
 }
 
-SDL_bool		SDLX_DefaultCollision(SDLX_Collider *self, SDLX_Collider *other)
+int SDLX_TimedLoop(int (*game_loop)(void *), void *args)
 {
-	return SDL_HasIntersection(self->collisionBoxPtr, other->collisionBoxPtr);
+	Uint32 	current;
+	int		i;
+
+	static double consumable;
+
+	current = SDL_GetTicks();
+	consumable += current - _intern_time.last_frame;
+	consumable = MAX(consumable, UPDATE_LEN_MS);
+	i = 0;
+	while (consumable > UPDATE_LEN_MS && i < MAX_UPDATE_PER_FRAME)
+	{
+		// Maybe a preferable approach would be to time the length of the update
+		// and either :
+		//			- Average it and use an N update / sec
+		//			- Deduct it from consumbale, set it as delta time
+		_intern_time.delta_time = MIN(consumable, UPDATE_LEN_MS) / UPDATE_LEN_MS;
+		game_loop(args);
+		consumable -= UPDATE_LEN_MS;
+		++i;
+	}
+	_intern_time.last_frame = current;
+	return i;
 }
+
+void SDLX_CapFPS()
+{
+	static Uint32 start;
+	int delay;
+
+	if (!start)
+		start = SDL_GetTicks();
+	delay = start - SDL_GetTicks();
+	delay = MAX(FRAME_TIME - delay , 0);
+	SDL_Delay(delay);
+	start = SDL_GetTicks();
+}
+
+SDLX_Time SDLX_Time_Get(void) {return _intern_time;}
+

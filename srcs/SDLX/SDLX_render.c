@@ -1,212 +1,153 @@
-#include "SDLX.h"
+#include "SDLX/SDLX.h"
 
-# define QUEUE_CT 3
-
-typedef struct SDLX_QueuesInfo
+typedef struct _internal_Queues
 {
-	SDLX_RenderQueue *renderQueues;
-	size_t queuesCount;
-	size_t queuesMax;
-}				SDLX_QueuesInfo;
+	uint32_t count;
+	SDLX_RenderQueue *queues;
+}	_intern_Queues;
 
-static SDLX_QueuesInfo _intern;
+static _intern_Queues queues;
 
-void SDLX_RenderInit(void)
+void SDLX_RenderQueues_Init()
 {
-	size_t i;
+	uint32_t i;
 
 	i = 0;
-	_intern.queuesCount = QUEUE_CT;
-	_intern.queuesMax = QUEUE_CT;
-	_intern.renderQueues = calloc(QUEUE_CT, sizeof(SDLX_RenderQueue));
-	while (i < QUEUE_CT)
+	queues.queues = SDL_calloc(DEFAULT_QUEUES_COUNT, sizeof(SDLX_RenderQueue));
+	while (i < DEFAULT_QUEUES_COUNT)
 	{
-		_intern.renderQueues[i].sprites = calloc(5,sizeof(SDLX_Sprite));
-		_intern.renderQueues[i].amount = 0;
-		_intern.renderQueues[i].capacity = 5;
-		i++;
+		queues.queues[i].sprites = SDL_calloc(DEFAULT_QUEUE_SIZE, sizeof(SDLX_Sprite *));
+		queues.queues[i].capacity = DEFAULT_QUEUE_SIZE;
+		queues.queues[i].size = 0;
+		++i;
+	}
+	queues.count = DEFAULT_QUEUES_COUNT;
+} 
+
+
+void 		SDLX_RenderAll(SDLX_Display *display)
+{
+	uint32_t i;
+	uint32_t n;
+	SDLX_RenderQueue *current;
+
+	i = 0;
+	while (i < queues.count)
+	{
+		current = &(queues.queues[i]);
+		n = 0;
+		// SDL_Log("Queue n %d has %ld", i, current->size);
+		while (n < current->size)
+		{
+			SDL_RenderCopyEx(
+				display->renderer,
+				current->sprites[n]->texture,
+				current->sprites[n]->src,
+				current->sprites[n]->dst,
+				current->sprites[n]->angle,
+				current->sprites[n]->center,
+				current->sprites[n]->flip
+			);
+			++n;
+		} 
+		++i;
 	}
 }
 
-void	SDLX_ResetWindow(SDLX_Display *display)
+void 		SDLX_RenderOne(uint32_t id);
+
+void        SDLX_Render_Reset(SDLX_Display *display)
 {
 	SDL_RenderClear(display->renderer);
 	SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0);
-	if (display->background)
-		SDL_RenderCopy(display->renderer, display->background, NULL, NULL);
+	SDL_RenderCopy(display->renderer, display->background, NULL, NULL);
 }
 
-void SDLX_RenderMessage(TTF_Font *font, char *msg, const SDL_Rect *src, const SDL_Rect *dst)
+void		SDLX_RenderQueue_Push(SDLX_Sprite *sprite)
 {
-	SDL_Surface *message;
-	SDLX_Display *display;
+	SDLX_RenderQueue *current;
 
-	display = SDLX_DisplayGet();
-	message = TTF_RenderText_Solid(font,
-						msg,
-						(SDL_Color){255, 255, 255, 255});
-	SDL_RenderCopy(display->renderer,
-					SDL_CreateTextureFromSurface(display->renderer, message),
-					src, dst);
-	SDL_FreeSurface(message);
+	if (sprite->primary_Layer < queues.count)
+	{
+		current = &(queues.queues[sprite->primary_Layer]);
+		if (current->size >= current->capacity)
+		{
+			current->capacity *= 2;
+			current->sprites = realloc(current->sprites, current->capacity * sizeof(SDLX_Sprite *));
+		}
+		current->sprites[current->size] = sprite;
+		current->size++;
+	}
 }
 
-void	SDLX_RenderQueueAdd(int queue, SDLX_Sprite sprite)
+void		SDLX_RenderQueue_FlushAll()
 {
-	// SDL_Log("Queue no %d\n", queue);
-	if (queue < 0 || queue >= _intern.queuesCount)
+	uint32_t i;
+
+	i = 0;
+	while (i < queues.count)
+	{
+		queues.queues[i].size = 0;
+		++i;
+	}
+}
+
+void        SDLX_RenderQueue_Flush(uint32_t id)
+{
+	if (queues.count < id)
+		queues.queues[id].size = 0;
+}
+
+uint32_t    SDLX_RenderQueue_Create(SDL_bool isSorted);
+
+SDLX_RenderQueue *SDLX_RenderQueue_Get(uint32_t id)
+{
+	if (id < queues.count)
+		return &queues.queues[id];
+
+	return NULL;
+}
+
+// 0 if renderered, 1 if error
+
+void SDLX_RenderMessage_Aligned(SDLX_Display *display, int x_align, int y_align, SDL_Color color, char *text)
+{
+	SDL_Surface *surf;
+	SDL_Rect 	dst;
+
+	if (!display->defaultFont)
+	{
+		SDL_Log("No font");
 		return ;
-	if (_intern.renderQueues[queue].capacity <= _intern.renderQueues[queue].amount)
-	{
-		// SDL_Log("Too many sprites\n");
-		_intern.renderQueues[queue].capacity *= 2;
-		_intern.renderQueues[queue].sprites = SDL_realloc(_intern.renderQueues[queue].sprites,_intern.renderQueues[queue].capacity * sizeof(SDLX_Sprite));
 	}
-	_intern.renderQueues[queue].sprites[_intern.renderQueues[queue].amount] = sprite;
-	// SDL_Log("Sprite set\n");
-	_intern.renderQueues[queue].amount++;
-}
+	surf = TTF_RenderText_Solid(display->defaultFont, text, color);
+	TTF_SizeText(display->defaultFont, text, &dst.w, &dst.h);
+	if (x_align == SDLX_RIGHT_ALIGN)
+		dst.x = 0;
+	else if (x_align == SDLX_LEFT_ALIGN)
+		dst.x = display->win_w - dst.w;
+	else if (x_align == SDLX_CENTER_ALIGN)
+		dst.x = (display->win_w / 2) - (dst.w / 2);
 
-// In case user needs a render q to modifiy it
-SDLX_RenderQueue **SDLX_RenderQueue_FetchAll(int *amount)
+	if (y_align == SDLX_TOP_ALIGN)
+		dst.y = 0;
+	else if (y_align == SDLX_BOTTOM_ALIGN)
+		dst.y = display->win_h - dst.h;
+	else if (y_align == SDLX_CENTER_ALIGN)
+		dst.y = (display->win_h / 2) - (dst.h / 2);
+
+	SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
+		NULL, &dst);
+	SDL_FreeSurface(surf);
+}	
+
+void SDLX_RenderMessage(SDLX_Display *display, SDL_Rect *dst, SDL_Color color, char *text)
 {
-	if (amount)
-		*amount = _intern.queuesCount;
+	SDL_Surface *surf;
 
-	return &_intern.renderQueues;
-}
+	surf = TTF_RenderText_Solid(display->defaultFont, text, color);
 
-void SDLX_RenderQueue_Flush(int queueNo)
-{
-	// *amount = _intern.queuesCount;
-
-	queueNo += 0;
-}
-
-// This as a template display. User is free to create their own renderQ displayer
-// this one just puts everything on the screen starting from the lowest Queue (assumed to be the background queue)
-void	SDLX_RenderQueueDisplay(SDLX_RenderQueue *queue, SDLX_Display *display)
-{
-	size_t i;
-
-	i = 0;
-	while (i < queue->amount)
-	{
-		SDL_RenderCopyEx(display->renderer,
-						queue->sprites[i].sprite_sheet,
-						queue->sprites[i].src,
-						queue->sprites[i].dst,
-						queue->sprites[i].angle,
-						queue->sprites[i].center,
-						queue->sprites[i].flip);
-		i++;
-	}
-	queue->amount = 0;
-}
-
-void SDLX_RenderFillCircle(SDL_Renderer *ren, SDLX_Circle circle)
-{
-	double x;
-	double y;
-	double val;
-	double valx;
-	double valy;
-
-	x = 0;
-	valx = 0;
-	y = circle.radius;
-	val = 1 - circle.radius;
-	valy = -2 * circle.radius;
-
-	SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-	SDL_RenderDrawLine(ren,
-						circle.x + circle.radius, circle.y,
-						circle.x - circle.radius, circle.y);
-	SDL_RenderDrawLine(ren,
-						circle.x, circle.y + circle.radius,
-						circle.x, circle.y - circle.radius);
-	while(x < y)
-	{
-		if(val > 0)
-		{
-			y--;
-			valy += 2;
-			val += valy;
-		}
-		x++;
-		valx += 2;
-		val += valx + 1;
-		SDL_RenderDrawLine(ren,
-							circle.x + x, circle.y + y,
-							circle.x - x, circle.y + y);
-		SDL_RenderDrawLine(ren,
-							circle.x + x, circle.y - y,
-							circle.x - x, circle.y - y);
-		SDL_RenderDrawLine(ren,
-							circle.x - y, circle.y - x,
-							circle.x + y, circle.y - x);
-		SDL_RenderDrawLine(ren,
-							circle.x - y, circle.y + x,
-							circle.x + y, circle.y + x);
-	}
-}
-
-void SDLX_RenderDrawCircle(SDL_Renderer *ren, SDLX_Circle circle)
-{
-	int i;
-	double x;
-	double y;
-	double val;
-	double valx;
-	double valy;
-
-	i= 0;
-	x = 0;
-	valx = 0;
-	y = circle.radius;
-	val = 1 - circle.radius;
-	valy = -2 * circle.radius;
-
-	SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-	SDL_RenderDrawPoint(ren, circle.x + circle.radius, circle.y);
-	SDL_RenderDrawPoint(ren, circle.x - circle.radius, circle.y);
-	SDL_RenderDrawPoint(ren, circle.x, circle.y + circle.radius);
-	SDL_RenderDrawPoint(ren, circle.x, circle.y - circle.radius);
-
-	while(x < y)
-	{
-		if(val > 0)
-		{
-			y--;
-			valy += 2;
-			val += valy;
-		}
-		x++;
-        valx += 2;
-        val += valx + 1;
-		SDL_RenderDrawPoint(ren, circle.x + x, circle.y + y);
-		SDL_RenderDrawPoint(ren, circle.x + y, circle.y + x);
-		SDL_RenderDrawPoint(ren, circle.x + x, circle.y - y);
-		SDL_RenderDrawPoint(ren, circle.x + y, circle.y - x);
-
-		SDL_RenderDrawPoint(ren, circle.x - x, circle.y + y);
-		SDL_RenderDrawPoint(ren, circle.x - x, circle.y - y);
-		SDL_RenderDrawPoint(ren, circle.x - y, circle.y - x);
-		SDL_RenderDrawPoint(ren, circle.x - y, circle.y + x);
-		i += 8;
-	}
-	// printf("Points %d circumfrence %d",i,(int)( 2 * M_PI * circle.radius ));
-}
-
-void SDLX_Render_DisplayAll(SDLX_Display *display)
-{
-	int i;
-
-	i = 0;
-	while (i < _intern.queuesCount)
-	{
-		SDLX_RenderQueueDisplay(&_intern.renderQueues[i], display);
-		i++;
-	}
-
-}
+	SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
+		NULL, dst);
+	SDL_FreeSurface(surf);
+}	

@@ -1,36 +1,23 @@
-#include "rush.h"
+#include "main.h"
 // #include "debug.h"
-
-SDLX_Animator *a;
 
 int main(void)
 {
-	Context *ctx;
-	SDL_Event e;
 	SDLX_Display  *display;
 
-	SDL_Log("Starting up\n");
-	ctx = init_game();
-	display = SDLX_DisplayGet();
-	SDLX_LevelRun();
-	// SDL_Log("ORI start%p", a->spriteptr->dstptr);
-	// SDL_Log("ORI D %p R %p", display, display->renderer);
+	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 500, 0);
+	display = SDLX_Display_Get();
 
+	// test_levelInit(NULL);
     while (1)
     {
-		SDLX_ResetWindow();
-		SDLX_InputUpdate(e);
+		SDLX_Render_Reset(display);
+		SDLX_Input_Update();
         SDLX_InputLoop();
-		SDLX_GUIUpdate();
-		SDLX_AnimationUpdate();
-		SDLX_LevelRun();
-
-		# ifdef DEBUG
-			debug(ctx);
-		#endif
-		// SDLX_RenderQueueDisplay(SDLX_RenderQueue_FetchAll(NULL)[0], display);
-		SDLX_Render_DisplayAll(display);
+		// test_level(NULL);
+		SDLX_TimedLoop(draw, display);
+		SDLX_RenderAll(display);
 		SDL_RenderPresent(display->renderer);
-		SDLX_FPSAdjust();
+		SDLX_CapFPS();
     }
 }

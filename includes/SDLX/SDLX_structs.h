@@ -1,38 +1,17 @@
-#ifndef SDLX_structs_H
-#define SDLX_structs_H
+/**
+ *  FILE: SDLX_structs.h
+ *  AUTHOR: 
+		FlavorlessQuark
+ *  CONTENTS: 
+		Structures used within SDLX
+ *  CREATION: 2022-05-10 16:47:11
+ *  MODIFIED: 2022-05-10 23:29:14
+ */
 
-# include "../SDL2/SDL.h"
-# include "SDLX_config.h"
-
-# ifndef MAX
-#  define MAX(a, b)\
-	({ 	__typeof__ (a) _a = (a);\
-		__typeof__ (b) _b = (b);\
-		(_a > _b) ? (a) : (b);})\
-
-# endif
-
-# ifndef MIN
-#  define MIN(a, b)			\
-({ 	__typeof__ (a) _a = (a);\
-	__typeof__ (b) _b = (b);\
-	(_a < _b) ? (a) : (b);})\
-
-# endif
-
-struct SDLX_GUIMeta;
-struct SDLX_Animator;
-typedef struct SDLX_Collider SDLX_Collider;
-typedef struct SDLX_GUIElem SDLX_GUIElem;
-// typedef struct SDLX_GUIMeta  GUIMETA;
-
-// typedef void (* SDLX_CollisionFn)(struct SDLX_Collider *, struct SDLX_Collider *);
-// typedef void(*SDLX_ReactionFn)(struct SDLX_Collider *, struct SDLX_Collider *);
-
-typedef int (* SDLX_UIFunc)(struct SDLX_GUIElem *);
-
-typedef SDL_bool (* SDLX_CollisionFn)(SDLX_Collider *, SDLX_Collider *);
-typedef void	 (* SDLX_ReactionFn)(SDLX_Collider *, SDLX_Collider *);
+#ifndef SDLX_STRUCT_H
+# define SDLX_STRUCT_H
+    
+#include "SDL2/SDL.h"
 
 enum
 {
@@ -60,130 +39,88 @@ typedef enum SDLX_InputType
 	SDLX_CONTROLLER,
 	SDLX_AXIS,
 	SDLX_GESTURE,
-	SDLX_KEYUP,
-	SDLX_KEYDOWN,
-	SDLX_KEYHELD
+    SDLX_INPUT_AMOUNT
 }				SDLX_InputType;
 
-typedef struct	SDLX_Input
-{
-	int input[INPUT_AMOUNT]; // This is just assuming no more than 5 keys will be mapped but that is a terrible asusmption. This should be allocated
-	int mouse_click;
-	int key_down;
-
-	SDL_Point mouse;
-	SDL_Point mouse_delta;
-}				SDLX_Input;
+enum {
+    SDLX_KEYNONE = 0,
+	SDLX_KEYDOWN,
+    SDLX_KEYUP,
+	SDLX_KEYHELD,
+};
 
 typedef struct SDLX_Display
 {
-	SDL_Window		*window;
-	SDL_Renderer	*renderer;
-	SDL_Texture		*background;
-}	SDLX_Display;
+    SDL_Window      *window;
+    SDL_Renderer    *renderer;
+    SDL_Texture     *background;
+
+    TTF_Font        *defaultFont;
+
+    int             win_w;
+    int             win_h;
+}   SDLX_Display;
+
+/**
+ * @brief SDLX_Sprite has both a _dst variable and a dst pointer
+ * This is in order to allow another variable to be "linked" to that pointer and modify it
+ * as well as giving the ability to null it entirely
+ * SDLX shall only use the pointer version of this variable
+ * SDLX_Sprite_Create shall  default *src to _src and *dst to _dst
+ * A NULL *dst shall behave like an SDL NULL dst (image is rendered to the whole screen)
+ * A NULL *src shall behave like an SDL NULL src (image source is the entire file)
+ */
 
 typedef struct SDLX_Sprite
 {
-	SDL_Rect			_dst;
-	SDL_Rect			_src;
-	SDL_Rect			*src;
-	SDL_Rect			*dst;
+    uint32_t    primary_Layer;
+    uint32_t    secondary_layer;
 
-	SDL_RendererFlip	flip;
+    SDL_Rect _dst;
+    SDL_Rect *dst;
+    SDL_Rect _src;
+    SDL_Rect *src;
+    
+    SDL_Texture *texture;
+    SDL_Point   *center;
+    SDL_Point   _center;
+    
+    SDL_RendererFlip    flip;
 
-	SDL_Point			_center;
-	SDL_Point			*center;
-
-	SDL_Texture			*sprite_sheet;
-
-	double				angle;
-	int					queue;
-}	SDLX_Sprite;
-
-typedef struct SDLX_Anim
-{
-	int			cycle;
-	int			start;
-
-	SDL_bool	loop;
-	SDL_Rect	*srcs;
-	SDL_Texture *sprite_sheet;
-}				SDLX_Anim;
-
-typedef struct SDLX_Animator
-{
-	int			state;
-	int			active;
-	int			amount;
-	int			frameNo;
-	int			stateLock;
-	int			nextAnim;
-
-	SDLX_Anim	**anims;
-	SDLX_Sprite	*sprite;
-
-	void		*meta;
-}				SDLX_Animator;
+    double      angle;
+}   SDLX_Sprite;
 
 typedef struct SDLX_RenderQueue
 {
-	size_t		amount;
-	size_t		capacity;
+    uint64_t    capacity;
+    uint64_t    size;
 
-	SDLX_Sprite *sprites;
-}	SDLX_RenderQueue;
+    SDL_bool    is_sorting_queue;
+    SDLX_Sprite **sprites;
+}   SDLX_RenderQueue;       
+
+typedef struct SDLX_Input
+{
+    int input[SDLX_INPUT_AMOUNT];
+	int mouse_click;
+	int key_down;
+
+	SDL_Point   mouse;
+	SDL_Point   mouse_delta;
+    uint32_t    mouse_state;
+}   SDLX_Input;
+
+typedef struct SDLX_Time
+{
+    Uint32     delta_time;
+    Uint32     last_frame;
+    uint32_t    frame_count;
+}   SDLX_Time;
 
 typedef struct SDLX_Circle
 {
-	double x;
-	double y;
-	double radius;
-}				SDLX_Circle;
-
-typedef struct SDLX_GUIElem
-{
-	SDLX_Sprite *sprite;
-
-	void *data;
-
-	int cd;
-	int active;
-	int triggered;
-	int autotrigger;
-	int selectStatus;
-
-	SDLX_UIFunc		isSelectFn;
-	SDLX_UIFunc		UIFuncs[4];
-	struct SDLX_GUIElem	*neighbours[4];
-
-	const char *name;
-}				SDLX_GUIElem;
-
-typedef struct SDLX_Collider
-{
-
-	//POssibly union here to allow for rect & circle collision
-	void	 	*collisionBoxPtr;
-	SDL_Rect 	collisionBox;
-
-	SDLX_CollisionFn collisionFn;
-	SDLX_ReactionFn	 reactionFn;
-
-	int			layerMask;
-	int			active;
-	void		*data;
-}				SDLX_Collider;
-
-typedef struct SDLX_Collision
-{
-	SDLX_Collider	*collidedWith;
-	SDLX_Collider	*self;
-
-}				SDLX_Collision;
-
-
-
-typedef void (* SDLX_LevelFunc)(void *);
-
+    SDL_Point   center;
+    int         radius;
+}   SDLX_Circle;
 
 #endif
