@@ -28,7 +28,9 @@ SRC_FILES =			\
 	$(addprefix $(MT_DIR), $(MT_NAMES))		\
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))	\
 	main				\
-	draw			\
+	draw				\
+	compute				\
+	visualizer			\
 
 SRCS = $(addprefix $(SRCS_DIR),$(addsuffix .c, $(SRC_FILES)))
 
@@ -42,6 +44,7 @@ $(NAME): $(BIN_DIR) $(OBJS)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
+# Add header files here
 $(BIN_DIR)%.o: %.c
 	mkdir -p $(BIN_DIR)$(dir $<)
 	gcc $(FLAGS) $(INCLUDES) -c $< -o $@

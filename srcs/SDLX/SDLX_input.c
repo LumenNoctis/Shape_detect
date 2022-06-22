@@ -17,6 +17,47 @@ static SDLX_KeyMap *keymap;
 static int input_buffer[SDLX_INPUT_AMOUNT];
 
 
+void SDLX_InputMap(int sdl_code, int type, int sdlx_code, int value, int controller_no)
+{
+	SDLX_KeyMap *new_mapping;
+
+	// This could be a static array of MAX_MAPPING size, however it is unlikely that things will get
+	// new mappins in the middle of a game, and I feel like a few small allocations as the game starts
+	// won't be much of a drawback. This allows to have an arbitrary number of mappings
+	// Though one can argue that it is unlikely that something will get mapped more than a certain amount
+	// However linked lists also allow for easier unmapping since nodes can dynamically be removed
+	// wheras arrays have a fixed number of indices and it would be troublesome to null them
+	// But unmaping keys should also be fairly rare. All in all the pros and cons still have to be weighted
+	// so I am going with what I find easiest at the moment.
+	new_mapping = calloc(1, sizeof(SDLX_KeyMap));
+	new_mapping->next = keymap;
+	new_mapping->type = type;
+	new_mapping->value = value;
+	new_mapping->key = sdl_code;
+	new_mapping->dest = &_intern_input.input[sdlx_code];
+	new_mapping->controller_no = controller_no;
+	keymap = new_mapping;
+}
+
+int SDLX_GetKeyMapState(int key)
+{
+	int state;
+	int pstate;
+
+	state = _intern_input.input[key];
+	pstate = input_buffer[key];
+
+	if (state > 0 && pstate > 0)
+		return SDLX_KEYHELD;
+	else if (state == 0 && pstate > 0)
+		return SDLX_KEYUP;
+	else if (state > 0 && pstate == 0)
+		return SDLX_KEYDOWN;
+	else
+		return SDLX_NONE;
+}
+
+
 void 		SDLX_InputResetBuffer(void)
 {
 	SDL_memcpy4(input_buffer, _intern_input.input, SDLX_INPUT_AMOUNT);
@@ -24,6 +65,7 @@ void 		SDLX_InputResetBuffer(void)
 	_intern_input.mouse_click = SDLX_FALSE;
 	_intern_input.key_down = SDLX_NONE;
 }
+
 void _GetInputState(SDLX_KeyMap 	*map_node)
 {
 	const Uint8		*keyboard;

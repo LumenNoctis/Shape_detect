@@ -46,9 +46,11 @@ void		SDLX_Sprite_Create(SDLX_Sprite *dest, uint32_t layer, SDL_Texture *texture
  */
 
 void		SDLX_Input_Update(void);
+void 		SDLX_InputResetBuffer(void);
+int         SDLX_GetKeyMapState(int key);
 SDLX_Input 	SDLX_Input_Get(void);
 void        SDLX_InputLoop(void);
-
+void        SDLX_InputMap(int sdl_code, int type, int sdlx_code, int value, int controller_no);
 /**
  * SDLX Utils functions
  * 

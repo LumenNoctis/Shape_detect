@@ -29,7 +29,10 @@ typedef enum SDLX_Keys
 	SDLX_DOWN,
 	SDLX_LEFT,
 	SDLX_RIGHT,
-	SDLX_PAUSE
+	SDLX_PAUSE,
+    SDLX_RESTART,
+    SDLX_TOGGLE,
+    SDLX_INPUT_AMOUNT
 }			SDLX_Keys;
 
 typedef enum SDLX_InputType
@@ -39,7 +42,7 @@ typedef enum SDLX_InputType
 	SDLX_CONTROLLER,
 	SDLX_AXIS,
 	SDLX_GESTURE,
-    SDLX_INPUT_AMOUNT
+    
 }				SDLX_InputType;
 
 enum {
