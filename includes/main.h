@@ -17,16 +17,16 @@
 
 # define DIVIDE_X 6
 # define DIVIDE_Y 6
-# define SEARCHRANGE 30
+# define SEARCHRANGE 50
 
-# define MAXTHRESHOLD 10
+# define MAXTHRESHOLD 50
 typedef struct s_transform
 {
     int stage;
     int mode;
     int drawSpace[DRAWSPACE_W * DRAWSPACE_H];
     int houghSpace[HOUGHSPACE_W * HOUGHSPACE_H];
-    int maximums[100];
+    int maximums[100]; 
     int maxIndex;
 }               t_transform;
 

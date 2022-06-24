@@ -55,8 +55,9 @@ int unrolled_LocalMax(t_transform *transform, int arrLen, int start, int w)
     nextIndex = unrolled_MaxInRange(SEARCHRANGE, transform->houghSpace, w, arrLen, start);
     if (nextIndex == start)
     {
-        if (transform->maxIndex < 100 && nextIndex > MAXTHRESHOLD)
+        if (transform->maxIndex < 100 && transform->houghSpace[nextIndex] > MAXTHRESHOLD)
         {
+            SDL_Log("Point is %d", transform->houghSpace[nextIndex]);
             transform->maximums[transform->maxIndex] = nextIndex;
             transform->maxIndex++;
         }
@@ -91,8 +92,6 @@ int unrolled_Divide(t_transform *transform)
          SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
         if (X <= DIVIDE_X)
         {
-            SDL_Log("STart here (%d,%d) at %d",(stepX * X), (stepY * Y * HOUGHSPACE_W), (stepY * Y * HOUGHSPACE_W) + (stepX * X));
-            
             if (unrolled_LocalMax (
                 transform, 
                 HOUGHSPACE_W * HOUGHSPACE_H, 
@@ -143,14 +142,18 @@ int visualizer(t_transform *transform)
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,255, 0, 0, 255);
         for (int i = 0; i < transform->maxIndex; i++)
         {
-            SDL_Rect point;
+            // if (transform->houghSpace[transform->maximums[i]] > MAXTHRESHOLD)
+            // {
+                
+                SDL_Rect point;
 
-            point.h = 4;
-            point.w = 4;
-            point.x = (transform->maximums[i] % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - 2;
-            point.y = (transform->maximums[i] / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - 2;
-            SDL_RenderDrawRect(
-                SDLX_Display_Get()->renderer, &point);
+                point.h = 4;
+                point.w = 4;
+                point.x = (transform->maximums[i] % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - 2;
+                point.y = (transform->maximums[i] / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - 2;
+                SDL_RenderDrawRect(
+                    SDLX_Display_Get()->renderer, &point);
+            // }
         }
          SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
     }
