@@ -14,8 +14,7 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
     col = -range;
     rect.h = range;
     rect.w = range;
-    rect.x = (pos % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - (range / 2);
-    rect.y = (pos / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - (range / 2);
+
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 255, 255);
     while (col <= range)
     {
@@ -32,8 +31,10 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
         }
         col++;
     }
+    rect.x = (pos % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - (range / 2);
+    rect.y = (pos / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - (range / 2);
     SDL_RenderFillRect(SDLX_Display_Get()->renderer, &rect);
-     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,255, 255, 255, 255);
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,255, 255, 255, 255);
     return maxPos;
 }
 
@@ -46,11 +47,7 @@ int unrolled_LocalMax(t_transform *transform, int arrLen, int start, int w)
 
     if (!nextIndex)
         nextIndex = start;
-        //  SDL_Log("COORD is it %f %f %d",
-        //         (start % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W), 
-        //         (start / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H),
-        //         start
-                // );
+
     start = nextIndex;
     nextIndex = unrolled_MaxInRange(SEARCHRANGE, transform->houghSpace, w, arrLen, start);
     if (nextIndex == start)
@@ -127,11 +124,11 @@ int drawAndShow(t_transform *transform)
 int visualizer(t_transform *transform)
 {
     // SDL_Log("Stage %d", transform->stage);
-    if (!transform->stage)
+    if (transform->stage == 0)
     {
         drawAndShow(transform);
     }
-    else
+    else if (transform->stage == 1)
     {
         renderHoughSpace(transform);
         if (transform->stage == 1 && unrolled_Divide(transform))
@@ -142,19 +139,20 @@ int visualizer(t_transform *transform)
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,255, 0, 0, 255);
         for (int i = 0; i < transform->maxIndex; i++)
         {
-            // if (transform->houghSpace[transform->maximums[i]] > MAXTHRESHOLD)
-            // {
-                
-                SDL_Rect point;
+            SDL_Rect point;
 
-                point.h = 4;
-                point.w = 4;
-                point.x = (transform->maximums[i] % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - 2;
-                point.y = (transform->maximums[i] / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - 2;
-                SDL_RenderDrawRect(
-                    SDLX_Display_Get()->renderer, &point);
-            // }
+            point.h = 4;
+            point.w = 4;
+            point.x = (transform->maximums[i] % HOUGHSPACE_W) * ((double)WINDOW_W / (double)HOUGHSPACE_W) - 2;
+            point.y = (transform->maximums[i] / HOUGHSPACE_W) * ((double)WINDOW_H / (double)HOUGHSPACE_H) - 2;
+            SDL_RenderDrawRect(
+                SDLX_Display_Get()->renderer, &point);
         }
          SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
+    } 
+    else
+    {
+        renderDrawSpace(transform);
+        renderLinesUnbound(transform);
     }
 }

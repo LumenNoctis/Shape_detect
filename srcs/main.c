@@ -9,7 +9,11 @@ t_transform *init(void)
 	SDLX_InputMap(SDL_SCANCODE_TAB, 1, SDLX_TOGGLE, 1, -1);
 	SDLX_InputMap(SDL_SCANCODE_SPACE, 1, SDLX_PAUSE, 1, -1);
 	SDLX_InputMap(SDL_SCANCODE_R, 1, SDLX_RESTART, 1, -1);
-
+	transform->prevX = -1;
+	transform->prevY = -1;
+	transform->drawSpace = SDL_CreateTexture(SDLX_Display_Get()->renderer,
+		SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
+		DRAWSPACE_W, DRAWSPACE_H );
 	return transform;
 }
 
@@ -23,7 +27,12 @@ int handleInput(t_transform *transform)
 	{
 		transform->stage = 0;
 		transform->maxIndex = 0;
-		memset(transform->drawSpace, 0, sizeof(int) * DRAWSPACE_W * DRAWSPACE_H);
+		transform->prevX = -1;
+		transform->prevY = -1;
+		// memset(transform->drawSpace, 0, sizeof(int) * DRAWSPACE_W * DRAWSPACE_H);
+		SDL_SetRenderTarget(SDLX_Display_Get()->renderer, transform->drawSpace);
+		SDL_RenderClear(SDLX_Display_Get()->renderer);
+		SDL_SetRenderTarget(SDLX_Display_Get()->renderer, NULL);
 		memset(transform->houghSpace, 0, sizeof(int) * HOUGHSPACE_W * HOUGHSPACE_H);
 	}
 	else if (input.input[SDLX_TOGGLE])
@@ -33,7 +42,7 @@ int handleInput(t_transform *transform)
 	}
 	else if (input.input[SDLX_PAUSE])
 		transform->stage = 1;
-
+	
 	SDLX_InputResetBuffer();
 }
 
@@ -50,6 +59,7 @@ int mainLoop(t_transform *transform)
 int main(void)
 {
 	SDLX_Display  	*display;
+	// SDL_Surface
 	t_transform		*transform;
 
 	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 500, 0);

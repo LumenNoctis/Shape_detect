@@ -1,4 +1,4 @@
-# include "math.h"
+
 # include "main.h"
 
 
@@ -8,19 +8,14 @@ int computeHough( int x, int y, int *arr, int w, int h)
     double theta;
     int d = 0;
     
-        // SDL_Log("HERE at %d %d", 
-        // x, 
-        // y
-        // );
+    // Formula: x cos(theta) + y sin(theta) = d
     while (angle < w)
     {
         theta = (angle * M_PI) / 180;
-        d = (x - (HOUGHSPACE_W / 2)) * cos(theta) + (y - (HOUGHSPACE_H / 2)) * sin(theta);
-        // SDL_Log("Here %d %d %d", theta, angle, d);
-        if (d * w + angle + w  > 0 &&
-            d * w + angle + w < h * w)
+        d = x * cos(theta) + y * sin(theta);
+        if (d * w + angle >= 0 && d * w + angle < h * w)
         {
-            arr[d * w + angle + w] += 1;
+            arr[d * w + angle] += 1;
         }
         angle++;
     }
