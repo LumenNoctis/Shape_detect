@@ -22,12 +22,13 @@
 # define DIVIDE_Y 6
 # define SEARCHRANGE 50
 
-# define MAXTHRESHOLD 30
+# define MAXTHRESHOLD 4
 typedef struct s_transform
 {
     SDL_Texture *drawSpace;
 
     int stage;
+    int treshold;
     int mode;
     int houghSpace[HOUGHSPACE_W * HOUGHSPACE_H];
     int maximums[100]; 
@@ -37,14 +38,20 @@ typedef struct s_transform
     int prevY;
 }               t_transform;
 
-int draw(t_transform *transform);
+int     draw(t_transform *transform);
 int     divideNconquer(int w, int h, int *arr);
 int     computeHough( int x, int y, int *arr, int w, int h);
 int     visualizer(t_transform *transform);
 int     compute(t_transform *transform);
 
-int     renderHoughSpace(t_transform *transform);
+int     renderMaximums(t_transform *transform);
+int     renderHoughSpace_AsPoints(t_transform *transform);
+int     renderHoughSpace_AsHeathMap(t_transform *transform);
+
 int     renderDrawSpace(t_transform *transform);
 int     renderLinesUnbound(t_transform *transform);
+
+int     scaleNumber_toRange(int input, SDL_Point fromRange, SDL_Point toRange);
+void    houghSpace_toScreen(int position, int *x, int *y);
 
 #endif

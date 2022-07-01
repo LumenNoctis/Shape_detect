@@ -77,7 +77,7 @@ int divideNconquer(int w, int h, int *arr)
     int currX;
     int currY;
     
-    SDL_Log("---------------------------------------------");
+    SDL_Log("--------------------------------------------");
     stepX = w / DIVIDE_X;
     stepY = h / DIVIDE_Y;
     i = 0;

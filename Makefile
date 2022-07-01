@@ -27,9 +27,11 @@ SDLX_NAMES =		\
 SRC_FILES =			\
 	$(addprefix $(MT_DIR), $(MT_NAMES))		\
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))	\
-	main				\
-	draw				\
 	compute				\
+	draw				\
+	main				\
+	render				\
+	utils				\
 	visualizer			\
 
 SRCS = $(addprefix $(SRCS_DIR),$(addsuffix .c, $(SRC_FILES)))
