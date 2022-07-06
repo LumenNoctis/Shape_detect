@@ -1,6 +1,4 @@
-# include "main.h"
-
-// typedef int(*visualizer_stage)(t_transform *);
+#include "../../includes/main.h"
 
 int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
 {
@@ -15,7 +13,7 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
     rect.h = range;
     rect.w = range;
 
-    houghSpace_toScreen(pos, &rect.x, &rect.y);
+    houghSpace_toScreen(pos, &rect.x, &rect.y, WINDOW_W, WINDOW_H);
     rect.x -= (range / 2);
     rect.y -= (range / 2);
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 255, 255);
@@ -30,7 +28,8 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
             tryPos = pos + ((row * w) + col);
             if (tryPos >= 0 && tryPos < arraySize)
             {
-                if (arr[tryPos] > arr[maxPos])
+                if (arr[tryPos] > arr[maxPos] || 
+                    (arr[tryPos] == arr[maxPos] && tryPos > maxPos))
                     maxPos = tryPos;
             }
             row++;
@@ -42,24 +41,23 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos)
 
 int unrolled_LocalMax(t_transform *transform, int arrLen, int start, int w)
 {
-    static int nextIndex;
 
     if (start >= arrLen || start < 0)
         return 1;
 
-    if (!nextIndex)
-        nextIndex = start;
+    if (!transform->visualizer.nextIndex)
+        transform->visualizer.nextIndex = start;
 
-    start = nextIndex;
-    nextIndex = unrolled_MaxInRange(SEARCHRANGE, transform->houghSpace, w, arrLen, start);
-    if (nextIndex == start)
+    start = transform->visualizer.nextIndex;
+    transform->visualizer.nextIndex = unrolled_MaxInRange(SEARCHRANGE, transform->houghSpace, w, arrLen, start);
+    if (transform->visualizer.nextIndex == start)
     {
-        if (transform->maxIndex < 100 && transform->houghSpace[nextIndex] > transform->treshold)
+        if (transform->maxIndex < 100 && transform->houghSpace[transform->visualizer.nextIndex] > transform->treshold)
         {
-            transform->maximums[transform->maxIndex] = nextIndex;
+            transform->maximums[transform->maxIndex] = transform->visualizer.nextIndex;
             transform->maxIndex++;
         }
-        nextIndex = 0;
+        transform->visualizer.nextIndex = 0;
         return 1;
     }
     return 0;
@@ -69,8 +67,6 @@ int unrolled_LocalMax(t_transform *transform, int arrLen, int start, int w)
 
 int unrolled_Divide(t_transform *transform)
 {
-    static int X;
-    static int Y;
     double stepX;
     double stepY;
 
@@ -80,72 +76,86 @@ int unrolled_Divide(t_transform *transform)
     stepX = HOUGHSPACE_W / DIVIDE_X;
     stepY = HOUGHSPACE_H / DIVIDE_Y;
 
-    SDL_Delay(100);
-    if (X < HOUGHSPACE_W)
+    SDL_Delay(50);
+    if (transform->visualizer.currentXDivide < HOUGHSPACE_W)
     {
-        houghSpace_toScreen((Y * HOUGHSPACE_W) + X, &lineX, &lineY);
+        houghSpace_toScreen((transform->visualizer.currentYDivide * HOUGHSPACE_W) + transform->visualizer.currentXDivide, &lineX, &lineY, HALFSCREEN_W, HALFSCREEN_H);
         
+        SDL_SetRenderTarget(SDLX_Display_Get()->renderer, transform->searchTex);
+        SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 0);
+        SDL_RenderClear(SDLX_Display_Get()->renderer);
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 255, 0, 255);
-        
-        SDL_RenderDrawLine(SDLX_Display_Get()->renderer, 0, lineY, WINDOW_W, lineY);
-        SDL_RenderDrawLine(SDLX_Display_Get()->renderer, lineX, 0, lineX, WINDOW_H);
+        SDL_RenderDrawLine(SDLX_Display_Get()->renderer, 0, transform->visualizer.currentYDivide, WINDOW_W, transform->visualizer.currentYDivide);
+        SDL_RenderDrawLine(SDLX_Display_Get()->renderer, transform->visualizer.currentXDivide, 0, transform->visualizer.currentXDivide, WINDOW_H);
 
-        SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
-        if (Y < HOUGHSPACE_H)
+        if (transform->visualizer.currentYDivide < HOUGHSPACE_H)
         {
             if (unrolled_LocalMax (
                 transform, 
                 HOUGHSPACE_W * HOUGHSPACE_H, 
-                (Y * HOUGHSPACE_W) + X, 
+                (transform->visualizer.currentYDivide * HOUGHSPACE_W) + transform->visualizer.currentXDivide, 
                 HOUGHSPACE_W
             ))
             {
-                Y += stepY;
+                transform->visualizer.currentYDivide += stepY;
             }
         }
         else
         {
-            Y = 0;
-            X += stepX;
+            transform->visualizer.currentYDivide = 0;
+            transform->visualizer.currentXDivide += stepX;
         }
-       
+       SDL_SetRenderTarget(SDLX_Display_Get()->renderer, NULL);
     }
     else {
-        X = 0;
-        Y = 0;
+        transform->visualizer.currentXDivide = 0;
+        transform->visualizer.currentYDivide = 0;
         return 1;
     }
     return 0;
 }
 
-int drawAndShow(t_transform *transform)
+int drawAndShow(t_transform *transform, int x, int y)
 {
+    SDL_Rect dst = {
+        .x = x,
+        .y = y,
+        .w = HALFSCREEN_W,
+        .h = HALFSCREEN_H
+        };
+
     draw(transform);
-    renderDrawSpace(transform);
+    renderDrawSpace_toDest(transform, dst);
     return 0;
 }
 
-int visualizer(t_transform *transform)
+void visualizer(t_transform *transform)
 {
-    if (transform->stage == 0)
+    SDL_Rect rect;
+
+    rect.h = HALFSCREEN_H;
+    rect.w = HALFSCREEN_W;
+    rect.x = 0;
+    rect.y = 0;
+    drawAndShow(transform, rect.x, rect.y);
+    rect.x += HALFSCREEN_W;
+    renderHoughSpace_AsPoints(transform, rect.x, rect.y);
+    rect.x = 0;
+    rect.y += HALFSCREEN_H;
+    renderHoughSpace_AsHeathMap(transform, rect.x, rect.y);
+    renderMaximums(transform, rect.x, rect.y);
+    if (transform->visualizer.shouldUpdate == 1)
     {
-        drawAndShow(transform);
+        if (unrolled_Divide(transform))
+            transform->visualizer.shouldUpdate++;
+        SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->searchTex, NULL, &rect);
     }
-    else if (transform->stage == 1)
-    {
-        renderHoughSpace_AsHeathMap(transform);
-        // renderHoughSpace_AsPoints(transform);
-    } 
-    else if (transform->stage == 2)
-    {
-        if (transform->stage == 2 && unrolled_Divide(transform))
-            transform->stage++;
-        renderHoughSpace_AsHeathMap(transform);
-        renderMaximums(transform);
-    }
-    else
-    {
-        renderDrawSpace(transform);
-        renderLinesUnbound(transform);
-    }
+    rect.x += HALFSCREEN_W;
+    renderLinesUnbound(transform);
+
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 255, 255, 255, 255);
+    SDL_RenderDrawLine(SDLX_Display_Get()->renderer, 0, HALFSCREEN_H, WINDOW_W, HALFSCREEN_H);
+    SDL_RenderDrawLine(SDLX_Display_Get()->renderer, HALFSCREEN_W, 0, HALFSCREEN_W, WINDOW_W);
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 0, 0, 255);
+    SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->lines, NULL, &rect);
 }

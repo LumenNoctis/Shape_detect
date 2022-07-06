@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "../../includes/SDLX/SDLX.h"
 
 void SDLX_Sprite_Print(SDLX_Sprite *sprite)
 {

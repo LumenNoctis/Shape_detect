@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "../../includes/SDLX/SDLX.h"
 
 static SDLX_Display display;
 void 			SDLX_Background_Set(SDL_Texture *bg) {display.background = bg;}

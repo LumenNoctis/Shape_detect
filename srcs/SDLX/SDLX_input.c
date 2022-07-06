@@ -1,4 +1,4 @@
-#include "SDLX/SDLX.h"
+#include "../../includes/SDLX/SDLX.h"
 #include <time.h>
 
 typedef struct	SDLX_KeyMap

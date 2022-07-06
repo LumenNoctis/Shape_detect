@@ -1,5 +1,4 @@
-#include "main.h"
-
+#include "../../includes/main.h"
 
 int draw(t_transform *transform)
 {
@@ -18,8 +17,27 @@ int draw(t_transform *transform)
 
     if (input.mouse_state )
     {
-        if (input.mouse_delta.x && input.mouse_delta.y)
+        if ((
+            (transform->mode == MODE_VISUALIZE) &&
+             input.mouse.x < HALFSCREEN_W &&
+             input.mouse.y < HALFSCREEN_H &&
+             input.mouse_delta.x && 
+             input.mouse_delta.y
+            )
+            || 
+            (transform->mode == MODE_COMPUTE &&
+            input.mouse_delta.x && 
+            input.mouse_delta.y))
         {
+            if (transform->mode == MODE_VISUALIZE)
+            {
+                SDL_Point fromRangex = {.x = 0, HALFSCREEN_W};
+                SDL_Point fromRangey = {.x = 0, HALFSCREEN_H};
+                SDL_Point toRangex = {.x = 0, WINDOW_W};
+                SDL_Point toRangey = {.x = 0, WINDOW_H};
+                input.mouse.x = scaleNumber_toRange(input.mouse.x, fromRangex, toRangex);
+                input.mouse.y = scaleNumber_toRange(input.mouse.y, fromRangey, toRangey);
+            }
 
             if (transform->prevX == -1 && transform->prevY == -1)
             {
@@ -46,8 +64,7 @@ int draw(t_transform *transform)
             {
                 x = transform->prevX + (stepDir * i);
                 y = x * slope + b;
-                computeHough(x * (HOUGHSPACE_W / (double)WINDOW_W),
-                            y * (HOUGHSPACE_H / (double)WINDOW_H),
+                computeHough(x, y,
                             transform->houghSpace, HOUGHSPACE_W, HOUGHSPACE_H);
             }
             SDL_SetRenderTarget(SDLX_Display_Get()->renderer, transform->drawSpace);

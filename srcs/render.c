@@ -1,6 +1,6 @@
-#include "main.h"
+#include "../../includes/main.h"
 
-int renderMaximums(t_transform *transform)
+void renderMaximums(t_transform *transform, int x_off, int y_off)
 {
     SDL_Rect point;
 
@@ -9,9 +9,9 @@ int renderMaximums(t_transform *transform)
         point.h = 6;
         point.w = 6;
         // SDL_Log("here  %d", i);
-        houghSpace_toScreen(transform->maximums[i], &point.x, &point.y);
-        point.x -= 3;
-        point.y -= 3;
+        houghSpace_toScreen(transform->maximums[i], &point.x, &point.y, HALFSCREEN_W, HALFSCREEN_W);
+        point.x = point.x + x_off - point.w;
+        point.y = point.y + y_off - point.h;
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 255, 100, 255);
         SDL_RenderDrawRect(
             SDLX_Display_Get()->renderer, &point);
@@ -19,12 +19,17 @@ int renderMaximums(t_transform *transform)
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
 }
 
-int renderDrawSpace(t_transform *transform)
+void renderDrawSpace(t_transform *transform)
 {
     SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->drawSpace, NULL, NULL);
 }
 
-int renderHoughSpace_AsHeathMap(t_transform *transform)
+void renderDrawSpace_toDest(t_transform *transform, SDL_Rect dest)
+{
+    SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->drawSpace, NULL, &dest);
+}
+
+void renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y)
 {
     uint8_t r;
     uint8_t g;
@@ -32,7 +37,8 @@ int renderHoughSpace_AsHeathMap(t_transform *transform)
     SDL_Point fromRange = {.x = 0, .y = transform->treshold};
     SDL_Point toRange = {.x = 0, .y = 255};
     int i;
-
+    int x;
+    int y;
 
     i = 0;
     g = 0;
@@ -46,10 +52,10 @@ int renderHoughSpace_AsHeathMap(t_transform *transform)
             SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,r, g, b, 255);
         if (transform->houghSpace[i])
         {
+            houghSpace_toScreen(i, &x, &y, HALFSCREEN_W, HALFSCREEN_H);
             SDL_RenderDrawPoint (
                 SDLX_Display_Get()->renderer,
-                (i % HOUGHSPACE_W) * ((double)WINDOW_W / HOUGHSPACE_W),
-                (i / HOUGHSPACE_W) * ((double)WINDOW_H / HOUGHSPACE_H)
+                x + off_x, y + off_y
             );
         }
         i++;
@@ -57,7 +63,7 @@ int renderHoughSpace_AsHeathMap(t_transform *transform)
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 0, 0, 255);
 }
 
-int renderHoughSpace_AsPoints(t_transform *transform)
+void renderHoughSpace_AsPoints(t_transform *transform,  int off_x, int off_y)
 {
     int i;
     int x;
@@ -69,18 +75,17 @@ int renderHoughSpace_AsPoints(t_transform *transform)
     {
         if (transform->houghSpace[i])
         {
-            houghSpace_toScreen(i, &x, &y);
+            houghSpace_toScreen(i, &x, &y, HALFSCREEN_W, HALFSCREEN_H);
             SDL_RenderDrawPoint (
-                SDLX_Display_Get()->renderer, x, y);
+                SDLX_Display_Get()->renderer, x + off_x, y + off_y);
         }
         i++;
     }
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 0, 0, 255);
 }
 
-int renderLinesUnbound(t_transform *transform)
+void renderLinesUnbound(t_transform *transform)
 {
-    static int print;
     SDLX_Display *display;
     double d;
     double theta;
@@ -88,21 +93,26 @@ int renderLinesUnbound(t_transform *transform)
     double x1, x2;
 
     display = SDLX_Display_Get();
+    SDL_SetRenderTarget(display->renderer, transform->lines);
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 0);
+    SDL_RenderClear(display->renderer);
+    SDL_SetRenderDrawColor(display->renderer,0, 0, 255, 255);
     for (int i = 0; i < transform->maxIndex; i++)
     {
         d = (transform->maximums[i] / HOUGHSPACE_W);
         theta = (transform->maximums[i] % HOUGHSPACE_W);
-        theta = (theta * M_PI) / 180; 
+        // SDL_Log("Theta %f distance %f", theta, d);
+        theta = (theta * M_PI) / 180;
 
-        SDL_SetRenderDrawColor(display->renderer,0, 0, 255, 255);
-        x1 = (d - 0 * sin(theta)) / cos(theta);
-        x2 = (d - WINDOW_H * sin(theta))/ cos(theta);
+        y1 = -(0 * cos(theta) - d) / sin(theta);
+        y2 = -(WINDOW_W * cos(theta) - d) / sin(theta);
         SDL_RenderDrawLine(
             display->renderer, 
-            x1, 0,
-            x2, WINDOW_H
+            0, y1, 
+            WINDOW_W, y2
         );
+
     }
-    print++;
+    SDL_SetRenderTarget(display->renderer, NULL);
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
 }

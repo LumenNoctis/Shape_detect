@@ -1,8 +1,7 @@
+#include "../../includes/main.h"
 
-# include "main.h"
 
-
-int computeHough( int x, int y, int *arr, int w, int h)
+void computeHough( int x, int y, int *arr, int w, int h)
 {
     int angle = 0;
     double theta;
@@ -21,9 +20,7 @@ int computeHough( int x, int y, int *arr, int w, int h)
     }
 }
 
-// This goes in a "cross" shape
-// improvement could be to make it square
-int getMax_inRange(int range, int *arr, int w, int arraySize, int pos)
+int getMax_inRange(t_transform *transform, int pos)
 {
     int row;
     int col;
@@ -31,15 +28,29 @@ int getMax_inRange(int range, int *arr, int w, int arraySize, int pos)
     int tryPos;
     
     maxPos = pos;
-    col = -range;
-    while (col <= range)
+    col = -SEARCHRANGE;
+    while (col <= SEARCHRANGE)
     {
-        row = -range;
-        while (row <= range)
+        row = -SEARCHRANGE;
+        while (row <= SEARCHRANGE)
         {
-            tryPos = pos + ((row * w) + col);
-            if (tryPos >= 0 && tryPos < arraySize && arr[tryPos] > arr[maxPos])
-                maxPos = tryPos;
+            tryPos = pos + ((row * HOUGHSPACE_W) + col);
+            if (
+                tryPos >= 0 && 
+                tryPos < HOUGHSPACE_W * HOUGHSPACE_H &&
+                (
+                    (transform->houghSpace[tryPos] > transform->houghSpace[maxPos]) || 
+                    (
+                        transform->houghSpace[tryPos] == transform->houghSpace[maxPos] && 
+                        tryPos > maxPos
+                    )
+                )
+            )
+            {
+                if (transform->houghSpace[tryPos] > transform->houghSpace[maxPos] || 
+                    (transform->houghSpace[tryPos] == transform->houghSpace[maxPos] && tryPos > maxPos))
+                    maxPos = tryPos;
+            }
             row++;
         }
         col++;
@@ -47,28 +58,33 @@ int getMax_inRange(int range, int *arr, int w, int arraySize, int pos)
     return maxPos;
 }
 
-int getLocalMax(int arrLen, int start, int w, int *arr)
+void getLocalMax(t_transform *transform, int start)
 {
     int i;
     int nextIndex;
     int newNext;
 
     i = start;
-    if (i >= arrLen || i < 0)
-        return 0;
-    SDL_Log("Start here %d", start);
+    if (i >= HOUGHSPACE_W * HOUGHSPACE_H || i < 0)
+        return ;
     nextIndex = i;
     while (1)
     {
         i = nextIndex;
-        nextIndex = getMax_inRange(SEARCHRANGE, arr, w, arrLen, i);
+        nextIndex = getMax_inRange(transform, i);
         if (nextIndex == i)
+        {
+            if (transform->maxIndex < 100 && transform->houghSpace[nextIndex] >= transform->treshold)
+            {
+                transform->maximums[transform->maxIndex] = nextIndex;
+                transform->maxIndex++;
+            }
             break ;
+        }
     }
-    SDL_Log("DONE Max %d at %d", arr[nextIndex], nextIndex);
 }
 
-int divideNconquer(int w, int h, int *arr)
+void divideNconquer(t_transform *transform)
 {
     int stepX;
     int stepY;
@@ -77,30 +93,31 @@ int divideNconquer(int w, int h, int *arr)
     int currX;
     int currY;
     
-    SDL_Log("--------------------------------------------");
-    stepX = w / DIVIDE_X;
-    stepY = h / DIVIDE_Y;
-    i = 0;
-    while (i <= DIVIDE_X)
+    stepX = HOUGHSPACE_W / DIVIDE_X;
+    stepY = HOUGHSPACE_H / DIVIDE_Y;
+    currX = 0;
+    while (currX < HOUGHSPACE_W)
     {
-        n = 0;
-        while (n <= DIVIDE_Y)
+        currY = 0;
+        while (currY < HOUGHSPACE_H)
         {
-            getLocalMax(w * h, stepY * i * w + stepX * n, w, arr);
-            n++;
+            getLocalMax(transform,
+                (currY * HOUGHSPACE_W) + currX);
+            currY += stepY;
         }
-        i++;
+        currX += stepX;
     }
+   
 }
 
-int compute(t_transform *transform)
+void compute(t_transform *transform)
 {
-    if (transform->stage)
-    {
-        divideNconquer(HOUGHSPACE_W, HOUGHSPACE_H, transform->houghSpace);
-        // Get lines
-        // Call renderLinesBound
-    }
+    renderDrawSpace(transform);
+    if (transform->canDraw)
+        draw(transform);
     else
-        renderDrawSpace(transform);
+    {
+        renderLinesUnbound(transform);
+        SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->lines, NULL, NULL);
+    }
 }

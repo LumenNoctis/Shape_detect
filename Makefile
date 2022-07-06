@@ -29,6 +29,7 @@ SRC_FILES =			\
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))	\
 	compute				\
 	draw				\
+	input               \
 	main				\
 	render				\
 	utils				\
@@ -40,8 +41,27 @@ OBJS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
 all: $(NAME)
 
+run: all
+	./$(NAME)
+
 $(NAME): $(BIN_DIR) $(OBJS)
 	gcc $(FLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBRARIES) $(DEBUG_FLAGS)
+
+wasm: 
+	emcc $(SRCS) $(INCLUDES) -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s USE_SDL_TTF=2 \
+	--preload-file srcs/SDLX/defsault.ttf -o $(NAME).js
+
+react:
+	emcc $(SRCS) $(INCLUDES)\
+	-s USE_SDL=2 \
+	-s USE_SDL_TTF=2 \
+	-s WASM=0 \
+	-s MODULARIZE=1 \
+	-s ENVIRONMENT=web \
+	-s ALLOW_MEMORY_GROWTH=1 \
+	-s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
+	--preload-file srcs/SDLX/default.ttf \
+	-o $(NAME).js
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
@@ -49,7 +69,7 @@ $(BIN_DIR):
 # Add header files here
 $(BIN_DIR)%.o: %.c
 	mkdir -p $(BIN_DIR)$(dir $<)
-	gcc $(FLAGS) $(INCLUDES) -c $< -o $@
+	gcc $(FLAGS) $(INCLUDES) $(DEBUG_FLAGS) -c $< -o $@
 
 run: re clean
 	./$(NAME)
