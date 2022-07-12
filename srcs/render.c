@@ -116,3 +116,41 @@ void renderLinesUnbound(t_transform *transform)
     SDL_SetRenderTarget(display->renderer, NULL);
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
 }
+
+void renderGridAt(int x, int y, int w, int h, int gap)
+{
+    int i;
+    int j;
+
+    i = x;
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 50, 50, 50, 125);
+    while (i < x + w)
+    {
+        SDL_RenderDrawLine(SDLX_Display_Get()->renderer,
+            i, y, i, y + h
+        );
+        i += gap;
+    }
+    j = y;
+    while (j < y + h)
+    {
+       SDL_RenderDrawLine(SDLX_Display_Get()->renderer,
+            x, j, x + w, j
+        );
+        j += gap;
+    }
+    SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 0, 0, 255);
+}
+
+void renderUI(t_transform *transform)
+{
+    SDLX_Input input;
+
+    input = SDLX_Input_Get();
+
+    // In visualize mode :
+        // - Mouse position in renderer lines (from mouse position in draw space)
+        // - Subscript for each quarter (Image space | Parameter Space | Parameter Space Heatmap | Detected lines)
+        // - 
+
+}

@@ -140,8 +140,10 @@ void visualizer(t_transform *transform)
     drawAndShow(transform, rect.x, rect.y);
     rect.x += HALFSCREEN_W;
     renderHoughSpace_AsPoints(transform, rect.x, rect.y);
+    renderGridAt(rect.x, rect.y, rect.w, rect.h, 10);
     rect.x = 0;
     rect.y += HALFSCREEN_H;
+    renderGridAt(rect.x, rect.y, rect.w, rect.h, 10);
     renderHoughSpace_AsHeathMap(transform, rect.x, rect.y);
     renderMaximums(transform, rect.x, rect.y);
     if (transform->visualizer.shouldUpdate == 1)

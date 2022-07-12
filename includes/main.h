@@ -6,8 +6,8 @@
 # define WINDOW_NAME "Edge detection"
 # define WINDOW_X SDL_WINDOWPOS_CENTERED
 # define WINDOW_Y SDL_WINDOWPOS_CENTERED
-# define WINDOW_H 500
 # define WINDOW_W 500
+# define WINDOW_H 500
 
 # define DRAWSPACE_W WINDOW_W
 # define DRAWSPACE_H WINDOW_H
@@ -71,6 +71,7 @@ void    renderDrawSpace_toDest(t_transform *transform, SDL_Rect dest);
 void    renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y);
 void    renderHoughSpace_AsPoints(t_transform *transform,  int off_x, int off_y);
 void    renderLinesUnbound(t_transform *transform);
+void    renderGridAt(int x, int y, int w, int h, int gap);
 
 int     scaleNumber_toRange(int input, SDL_Point fromRange, SDL_Point toRange);
 void    houghSpace_toScreen(int position, int *x, int *y, int w, int h);
