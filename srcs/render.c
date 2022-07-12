@@ -9,7 +9,7 @@ void renderMaximums(t_transform *transform, int x_off, int y_off)
         point.h = 6;
         point.w = 6;
         // SDL_Log("here  %d", i);
-        houghSpace_toScreen(transform->maximums[i], &point.x, &point.y, HALFSCREEN_W, HALFSCREEN_W);
+        houghSpace_toScreen(transform->maximums[i], &point.x, &point.y, transform->canvW / 2, transform->canvW / 2);
         point.x = point.x + x_off - point.w;
         point.y = point.y + y_off - point.h;
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 255, 100, 255);
@@ -52,7 +52,7 @@ void renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y)
             SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,r, g, b, 255);
         if (transform->houghSpace[i])
         {
-            houghSpace_toScreen(i, &x, &y, HALFSCREEN_W, HALFSCREEN_H);
+            houghSpace_toScreen(i, &x, &y, transform->canvW / 2, transform->canvH / 2);
             SDL_RenderDrawPoint (
                 SDLX_Display_Get()->renderer,
                 x + off_x, y + off_y
@@ -75,7 +75,7 @@ void renderHoughSpace_AsPoints(t_transform *transform,  int off_x, int off_y)
     {
         if (transform->houghSpace[i])
         {
-            houghSpace_toScreen(i, &x, &y, HALFSCREEN_W, HALFSCREEN_H);
+            houghSpace_toScreen(i, &x, &y, transform->canvW / 2, transform->canvH / 2);
             SDL_RenderDrawPoint (
                 SDLX_Display_Get()->renderer, x + off_x, y + off_y);
         }
@@ -105,11 +105,11 @@ void renderLinesUnbound(t_transform *transform)
         theta = (theta * M_PI) / 180;
 
         y1 = -(0 * cos(theta) - d) / sin(theta);
-        y2 = -(WINDOW_W * cos(theta) - d) / sin(theta);
+        y2 = -(transform->canvW * cos(theta) - d) / sin(theta);
         SDL_RenderDrawLine(
             display->renderer, 
             0, y1, 
-            WINDOW_W, y2
+            transform->canvW, y2
         );
 
     }

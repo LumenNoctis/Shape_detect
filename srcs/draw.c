@@ -19,8 +19,8 @@ int draw(t_transform *transform)
     {
         if ((
             (transform->mode == MODE_VISUALIZE) &&
-             input.mouse.x < HALFSCREEN_W &&
-             input.mouse.y < HALFSCREEN_H &&
+             input.mouse.x < transform->canvW / 2 &&
+             input.mouse.y < transform->canvH / 2 &&
              input.mouse_delta.x && 
              input.mouse_delta.y
             )
@@ -31,10 +31,10 @@ int draw(t_transform *transform)
         {
             if (transform->mode == MODE_VISUALIZE)
             {
-                SDL_Point fromRangex = {.x = 0, HALFSCREEN_W};
-                SDL_Point fromRangey = {.x = 0, HALFSCREEN_H};
-                SDL_Point toRangex = {.x = 0, WINDOW_W};
-                SDL_Point toRangey = {.x = 0, WINDOW_H};
+                SDL_Point fromRangex = {.x = 0, transform->canvW / 2};
+                SDL_Point fromRangey = {.x = 0, transform->canvH / 2};
+                SDL_Point toRangex = {.x = 0, transform->canvW};
+                SDL_Point toRangey = {.x = 0, transform->canvH};
                 input.mouse.x = scaleNumber_toRange(input.mouse.x, fromRangex, toRangex);
                 input.mouse.y = scaleNumber_toRange(input.mouse.y, fromRangey, toRangey);
             }

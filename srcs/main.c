@@ -21,6 +21,8 @@ t_transform *init(void)
 	transform->prevX = -1;
 	transform->prevY = -1;
 	transform->canDraw = 1;
+	transform->canvW = WINDOW_W;
+	transform->canvH = WINDOW_H;
 	transform->drawSpace = SDL_CreateTexture(
 			SDLX_Display_Get()->renderer,
 			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
@@ -58,7 +60,7 @@ void mainLoop(void)
 
 int main(void)
 {
-	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_H, WINDOW_W, 0);
+	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, 0);
 	display = SDLX_Display_Get();
 
 	transform =	init();

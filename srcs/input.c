@@ -24,6 +24,8 @@ void handleInput(t_transform *transform)
 		{
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED) 
 			{
+				transform->canvW = event.window.data1;
+				transform->canvH = event.window.data2;
 				SDL_SetWindowSize(display->window, event.window.data1, event.window.data2);
 				// update_screen_size(event.window.data1, event.window.data2);
 			}

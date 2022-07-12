@@ -51,6 +51,8 @@ typedef struct s_transform
     int maximums[100]; 
     int maxIndex;
 
+    int canvW;
+    int canvH;
     int canDraw;
     int prevX;
     int prevY;
