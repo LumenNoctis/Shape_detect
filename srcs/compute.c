@@ -38,19 +38,9 @@ int getMax_inRange(t_transform *transform, int pos)
             if (
                 tryPos >= 0 && 
                 tryPos < HOUGHSPACE_W * HOUGHSPACE_H &&
-                (
-                    (transform->houghSpace[tryPos] > transform->houghSpace[maxPos]) || 
-                    (
-                        transform->houghSpace[tryPos] == transform->houghSpace[maxPos] && 
-                        tryPos > maxPos
-                    )
-                )
+                    (transform->houghSpace[tryPos] >= transform->houghSpace[maxPos])
             )
-            {
-                if (transform->houghSpace[tryPos] > transform->houghSpace[maxPos] || 
-                    (transform->houghSpace[tryPos] == transform->houghSpace[maxPos] && tryPos > maxPos))
-                    maxPos = tryPos;
-            }
+                maxPos = tryPos;
             row++;
         }
         col++;
@@ -74,7 +64,7 @@ void getLocalMax(t_transform *transform, int start)
         nextIndex = getMax_inRange(transform, i);
         if (nextIndex == i)
         {
-            if (transform->maxIndex < 100 && transform->houghSpace[nextIndex] >= transform->treshold)
+            if (transform->maxIndex < 100 && (transform->houghSpace[nextIndex] * transform->houghSpace[nextIndex]) >= transform->treshold)
             {
                 transform->maximums[transform->maxIndex] = nextIndex;
                 transform->maxIndex++;

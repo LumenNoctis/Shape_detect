@@ -44,9 +44,9 @@ void renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y)
     g = 0;
     while (i < HOUGHSPACE_W * HOUGHSPACE_H)
     {
-        r = scaleNumber_toRange(transform->houghSpace[i], fromRange, toRange);
+        r = scaleNumber_toRange(transform->houghSpace[i] * transform->houghSpace[i], fromRange, toRange);
         b = 255 - r;
-        if (transform->houghSpace[i] >= transform->treshold)
+        if (transform->houghSpace[i] * transform->houghSpace[i] >= transform->treshold)
             SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 255, 0, 255);
         else
             SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,r, g, b, 255);
