@@ -10,7 +10,7 @@ void handleInput(t_transform *transform)
 	SDL_Event event;
 
 	input = SDLX_Input_Get();
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
 		// TODO: Replace the ugly switch statement
 		#ifndef __EMSCRIPTEN__
@@ -22,7 +22,7 @@ void handleInput(t_transform *transform)
 
 		if  (event.type == SDL_WINDOWEVENT)
 		{
-			if (event.window.event == SDL_WINDOWEVENT_RESIZED) 
+			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 			{
 				transform->canvW = event.window.data1;
 				transform->canvH = event.window.data2;
@@ -54,12 +54,14 @@ void handleInput(t_transform *transform)
 		transform->visualizer.shouldUpdate = 1;
 		transform->treshold++;
 		transform->maxIndex = 0;
+		SDL_Log("New threshoed %d", transform->treshold);
 		resetVisualizer(transform);
 	}
 	if (transform->mode == MODE_VISUALIZE && SDLX_GetKeyMapState(SDLX_RIGHT) == SDLX_KEYUP)
 	{
 		transform->visualizer.shouldUpdate = 1;
 		transform->treshold--;
+		SDL_Log("New threshoed %d", transform->treshold);
 		transform->maxIndex = 0;
 		resetVisualizer(transform);
 	}
