@@ -48,7 +48,7 @@ typedef struct s_transform
     int treshold;
     int mode;
     int houghSpace[HOUGHSPACE_W * HOUGHSPACE_H];
-    int maximums[100]; 
+    int maximums[100];
     int maxIndex;
 
     int canvW;
@@ -74,6 +74,7 @@ void    renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y
 void    renderHoughSpace_AsPoints(t_transform *transform,  int off_x, int off_y);
 void    renderLinesUnbound(t_transform *transform);
 void    renderGridAt(int x, int y, int w, int h, int gap);
+void 	renderUI(t_transform *transform);
 
 int     scaleNumber_toRange(int input, SDL_Point fromRange, SDL_Point toRange);
 void    houghSpace_toScreen(int position, int *x, int *y, int w, int h);

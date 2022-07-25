@@ -48,11 +48,11 @@ $(NAME): $(BIN_DIR) $(OBJS)
 	gcc $(FLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBRARIES) $(DEBUG_FLAGS)
 
 wasm: 
-	emcc $(SRCS) $(INCLUDES) -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s USE_SDL_TTF=2 \
+	emcc -O2 -0S$(SRCS) $(INCLUDES) -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s USE_SDL_TTF=2 \
 	--preload-file srcs/SDLX/defsault.ttf -o $(NAME).js
 
 react:
-	emcc $(SRCS) $(INCLUDES)\
+	emcc -O2 $(SRCS) $(INCLUDES)\
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
 	-s WASM=0 \
@@ -61,7 +61,7 @@ react:
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
 	--preload-file srcs/SDLX/default.ttf \
-	-o $(NAME).js
+	-o test.js
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)

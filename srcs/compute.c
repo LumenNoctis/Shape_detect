@@ -64,7 +64,7 @@ void getLocalMax(t_transform *transform, int start)
         nextIndex = getMax_inRange(transform, i);
         if (nextIndex == i)
         {
-            if (transform->maxIndex < 100 && (transform->houghSpace[nextIndex] * transform->houghSpace[nextIndex]) >= transform->treshold)
+            if (transform->maxIndex < 100 && (transform->houghSpace[nextIndex]) >= transform->treshold)
             {
                 transform->maximums[transform->maxIndex] = nextIndex;
                 transform->maxIndex++;

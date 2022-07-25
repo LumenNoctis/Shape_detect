@@ -54,6 +54,8 @@ void mainLoop(void)
 		visualizer(transform);
 	else
 		compute(transform);
+
+	renderUI(transform);
 	SDLX_RenderAll(display);
 	SDL_RenderPresent(display->renderer);
 }
@@ -65,13 +67,13 @@ int main(void)
 
 	transform =	init();
 
-	#ifdef __EMSCRIPTEN__ 
-			emscripten_set_main_loop(mainLoop, 0, 1); 
-	#endif 
-	#ifndef __EMSCRIPTEN__ 
-		while(1) 
+	#ifdef __EMSCRIPTEN__
+			emscripten_set_main_loop(mainLoop, 0, 1);
+	#endif
+	#ifndef __EMSCRIPTEN__
+		while(1)
 			mainLoop();
-	#endif 
+	#endif
 
     // while (1)
     // {

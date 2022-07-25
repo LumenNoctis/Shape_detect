@@ -7,7 +7,7 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos, t_tr
     int col;
     int maxPos;
     int tryPos;
-    
+
     maxPos = pos;
     col = -range;
     rect.h = range;
@@ -28,8 +28,7 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos, t_tr
             tryPos = pos + ((row * w) + col);
             if (tryPos >= 0 && tryPos < arraySize)
             {
-                if (arr[tryPos] > arr[maxPos] || 
-                    (arr[tryPos] == arr[maxPos] && tryPos > maxPos))
+                if (arr[tryPos] >= arr[maxPos])
                     maxPos = tryPos;
             }
             row++;
@@ -80,7 +79,7 @@ int unrolled_Divide(t_transform *transform)
     if (transform->visualizer.currentXDivide < HOUGHSPACE_W)
     {
         houghSpace_toScreen((transform->visualizer.currentYDivide * HOUGHSPACE_W) + transform->visualizer.currentXDivide, &lineX, &lineY, transform->canvW / 2, transform->canvH / 2);
-        
+
         SDL_SetRenderTarget(SDLX_Display_Get()->renderer, transform->searchTex);
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 0);
         SDL_RenderClear(SDLX_Display_Get()->renderer);
@@ -91,9 +90,9 @@ int unrolled_Divide(t_transform *transform)
         if (transform->visualizer.currentYDivide < HOUGHSPACE_H)
         {
             if (unrolled_LocalMax (
-                transform, 
-                HOUGHSPACE_W * HOUGHSPACE_H, 
-                (transform->visualizer.currentYDivide * HOUGHSPACE_W) + transform->visualizer.currentXDivide, 
+                transform,
+                HOUGHSPACE_W * HOUGHSPACE_H,
+                (transform->visualizer.currentYDivide * HOUGHSPACE_W) + transform->visualizer.currentXDivide,
                 HOUGHSPACE_W
             ))
             {

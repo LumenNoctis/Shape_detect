@@ -107,8 +107,8 @@ void renderLinesUnbound(t_transform *transform)
         y1 = -(0 * cos(theta) - d) / sin(theta);
         y2 = -(transform->canvW * cos(theta) - d) / sin(theta);
         SDL_RenderDrawLine(
-            display->renderer, 
-            0, y1, 
+            display->renderer,
+            0, y1,
             transform->canvW, y2
         );
 
@@ -145,12 +145,76 @@ void renderGridAt(int x, int y, int w, int h, int gap)
 void renderUI(t_transform *transform)
 {
     SDLX_Input input;
+	SDL_Rect textbox;
+
 
     input = SDLX_Input_Get();
 
+	if (transform->mode == MODE_COMPUTE)
+	{
+		char *text;
+
+		if (transform->canDraw)
+			text = "Click to draw. Press space to compute edges";
+		else
+			text = "Space to draw";
+		SDLX_RenderMessage_Aligned(
+			SDLX_Display_Get(),
+			SDLX_CENTER_ALIGN,
+			SDLX_BOTTOM_ALIGN,
+			(SDL_Color){255, 255, 255},
+			text
+		);
+		SDLX_RenderMessage_Aligned(
+			SDLX_Display_Get(),
+			SDLX_CENTER_ALIGN,
+			SDLX_TOP_ALIGN,
+			(SDL_Color){255, 255, 255},
+			"Draw mode (tab to switch)"
+		);
+	}
+	else
+	{
+
+		char *texts[4] = {"draw space","hough space", "heatmap (left/right to adjust)", "computed edges"};
+
+		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[0], &textbox.w, &textbox.h);
+		textbox.x = (transform->canvW / 4) - (textbox.w / 2);
+		textbox.y = transform->canvH / 2  - textbox.h;
+		SDLX_RenderMessage(SDLX_Display_Get(),
+		&textbox, (SDL_Color){255, 255, 255}, texts[0]);
+
+		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[1], &textbox.w, &textbox.h);
+		textbox.x = (3 * (transform->canvW / 4)) - (textbox.w / 2);
+		textbox.y = transform->canvH / 2  - textbox.h;
+		SDLX_RenderMessage(SDLX_Display_Get(),
+		&textbox, (SDL_Color){255, 255, 255}, texts[1]);
+
+
+		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[2], &textbox.w, &textbox.h);
+		textbox.x = (transform->canvW / 4) - (textbox.w / 2);
+		textbox.y = transform->canvH  - textbox.h;
+		SDLX_RenderMessage(SDLX_Display_Get(),
+		&textbox, (SDL_Color){255, 255, 255}, texts[2]);
+
+
+		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[3], &textbox.w, &textbox.h);
+		textbox.x = (3 * (transform->canvW / 4)) - (textbox.w / 2);
+		textbox.y = transform->canvH - textbox.h;
+		SDLX_RenderMessage(SDLX_Display_Get(),
+		&textbox, (SDL_Color){255, 255, 255}, texts[3]);
+
+		SDLX_RenderMessage_Aligned(
+			SDLX_Display_Get(),
+			SDLX_CENTER_ALIGN,
+			SDLX_TOP_ALIGN,
+			(SDL_Color){255, 255, 255},
+			"Visualize mode (tab to switch)"
+		);
+	}
     // In visualize mode :
         // - Mouse position in renderer lines (from mouse position in draw space)
         // - Subscript for each quarter (Image space | Parameter Space | Parameter Space Heatmap | Detected lines)
-        // - 
+        // -
 
 }

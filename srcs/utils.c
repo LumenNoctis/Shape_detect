@@ -41,3 +41,4 @@ void resetTransform(t_transform *transform)
 	SDL_SetRenderTarget(SDLX_Display_Get()->renderer, NULL);
 	memset(transform->houghSpace, 0, sizeof(int) * HOUGHSPACE_W * HOUGHSPACE_H);
 }
+
