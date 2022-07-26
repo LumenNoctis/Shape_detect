@@ -57,7 +57,6 @@ void mainLoop(void)
 		compute(transform);
 
 	renderUI(transform);
-	SDLX_RenderAll(display);
 	SDL_RenderPresent(display->renderer);
 }
 
@@ -75,14 +74,4 @@ int main(void)
 		while(1)
 			mainLoop();
 	#endif
-
-    // while (1)
-    // {
-	// 	SDLX_Render_Reset(display);
-	// 	SDLX_Input_Update();
-    //     SDLX_InputLoop();
-	// 	mainLoop(transform);
-	// 	SDLX_RenderAll(display);
-	// 	SDL_RenderPresent(display->renderer);
-    // }
 }

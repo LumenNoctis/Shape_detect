@@ -12,7 +12,6 @@ void handleInput(t_transform *transform)
 	input = SDLX_Input_Get();
     while (SDL_PollEvent(&event))
     {
-		// TODO: Replace the ugly switch statement
 		#ifndef __EMSCRIPTEN__
 			if (event.type == SDL_QUIT)
 				exit(0);
@@ -27,7 +26,6 @@ void handleInput(t_transform *transform)
 				transform->canvW = event.window.data1;
 				transform->canvH = event.window.data2;
 				SDL_SetWindowSize(display->window, event.window.data1, event.window.data2);
-				// update_screen_size(event.window.data1, event.window.data2);
 			}
         }
     }
@@ -71,6 +69,6 @@ void handleInput(t_transform *transform)
 	}
 	else if(input.mouse_state)
 	{
-		transform->visualizer.shouldUpdate = 0;
+		resetVisualizer(transform);
 	}
 }

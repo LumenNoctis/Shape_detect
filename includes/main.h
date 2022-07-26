@@ -29,7 +29,7 @@
 # define M_PI 3.14159265358979323846
 #endif
 
-# define MAXTHRESHOLD 9
+# define MAXTHRESHOLD 22
 
 typedef struct  s_visualizer
 {

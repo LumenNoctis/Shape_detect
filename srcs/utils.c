@@ -24,29 +24,23 @@ int scaleNumber_toRange(int input, SDL_Point fromRange, SDL_Point toRange)
 
 void resetVisualizer(t_transform *transform)
 {
-		transform->visualizer.shouldUpdate = 0;
-		transform->visualizer.currentXDivide = 0;
-		transform->visualizer.currentYDivide = 0;
-		transform->visualizer.nextIndex = 0;
+	transform->visualizer.shouldUpdate = 0;
+	transform->visualizer.currentXDivide = 0;
+	transform->visualizer.currentYDivide = 0;
+	transform->visualizer.nextIndex = 0;
 }
 
 void resetTransform(t_transform *transform)
 {
-	resetVisualizer(transform);
 	transform->maxIndex = 0;
 	transform->prevX = -1;
 	transform->prevY = -1;
+
+	resetVisualizer(transform);
+
 	SDL_SetRenderTarget(SDLX_Display_Get()->renderer, transform->drawSpace);
 	SDL_RenderClear(SDLX_Display_Get()->renderer);
 	SDL_SetRenderTarget(SDLX_Display_Get()->renderer, NULL);
+
 	memset(transform->houghSpace, 0, sizeof(int) * HOUGHSPACE_W * HOUGHSPACE_H);
-}
-
-Uint8 getPixelColour(SDL_Surface *surface, int x, int y)
-{
-	int bpp = surface->format->BytesPerPixel;
-
-    Uint8 *pixel = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-	// SDL_Log("This is pixel %p and foudn %p", surface->pixels, pixel);
-	return *pixel;
 }

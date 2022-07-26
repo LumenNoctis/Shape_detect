@@ -6,18 +6,22 @@ void renderMaximums(t_transform *transform, int x_off, int y_off)
 
 	point.h = 6;
 	point.w = 6;
+
     for (int i = 0; i < transform->maxIndex; i++)
     {
-        // SDL_Log("here  %d", i);
         houghSpace_toScreen(transform->maximums[i], &point.x, &point.y, transform->canvW / 2, transform->canvW / 2);
-        point.x = point.x + x_off - point.w;
+
+		point.x = point.x + x_off - point.w;
         point.y = point.y + y_off - point.h;
+
 		if (point.y <= transform->canvH / 2)
 			point.y = transform->canvH / 2;
-        SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 255, 100, 255);
+
+		SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 255, 100, 255);
         SDL_RenderDrawRect(
             SDLX_Display_Get()->renderer, &point);
     }
+
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
 }
 
@@ -31,31 +35,43 @@ void renderDrawSpace_toDest(t_transform *transform, SDL_Rect dest)
     SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->drawSpace, NULL, &dest);
 }
 
-void renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y)
+void set_HoughPoint_RenderColour(t_transform *transform, int i)
 {
-    uint8_t r;
+	uint8_t r;
     uint8_t g;
     uint8_t b;
     SDL_Point fromRange = {.x = 0, .y = transform->treshold};
     SDL_Point toRange = {.x = 0, .y = 255};
+
+	g = 0;
+	r = scaleNumber_toRange(transform->houghSpace[i], fromRange, toRange);
+	b = 255 - r;
+
+	if (transform->houghSpace[i] >= transform->treshold)
+		SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 255, 0, 255);
+	else
+		SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,r, g, b, 255);
+}
+
+void renderHoughSpace_AsHeathMap(t_transform *transform, int off_x, int off_y)
+{
+
     int i;
     int x;
     int y;
 
     i = 0;
-    g = 0;
+
     while (i < HOUGHSPACE_W * HOUGHSPACE_H)
     {
-        r = scaleNumber_toRange(transform->houghSpace[i], fromRange, toRange);
-        b = 255 - r;
-        if (transform->houghSpace[i] >= transform->treshold)
-            SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 255, 0, 255);
-        else
-            SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,r, g, b, 255);
+
         if (transform->houghSpace[i])
         {
+			set_HoughPoint_RenderColour(transform, i);
+
             houghSpace_toScreen(i, &x, &y, transform->canvW / 2, transform->canvH / 2);
-            SDL_RenderDrawPoint (
+
+			SDL_RenderDrawPoint (
                 SDLX_Display_Get()->renderer,
                 x + off_x, y + off_y
             );
@@ -119,9 +135,6 @@ void renderLinesUnbound(t_transform *transform)
 			y1 = -(0 * cos(theta) - d) / sin(theta);
 			y2 = -(transform->canvW * cos(theta) - d) / sin(theta);
 
-			// if (isinf(y2))
-			// 	y2 = transform->canvH;
-			SDL_Log("Theta %f , d %d, y1 %f, y2%f at position %d | %d", theta, d, y1, y2, i, isinf(y2));
 			SDL_RenderDrawLine(
 				display->renderer,
 				0, y1,
@@ -134,27 +147,27 @@ void renderLinesUnbound(t_transform *transform)
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer,0, 0, 0, 255);
 }
 
-void renderGridAt(int x, int y, int w, int h, int gap)
+void renderGridAt(int x, int y, int width, int height, int gap)
 {
-    int i;
-    int j;
+    int row;
+    int col;
 
-    i = x;
+    row = x;
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 50, 50, 50, 125);
-    while (i < x + w)
+    while (row < x + width)
     {
         SDL_RenderDrawLine(SDLX_Display_Get()->renderer,
-            i, y, i, y + h
+            row, y, row, y + height
         );
-        i += gap;
+        row += gap;
     }
-    j = y;
-    while (j < y + h)
+    col = y;
+    while (col < y + height)
     {
        SDL_RenderDrawLine(SDLX_Display_Get()->renderer,
-            x, j, x + w, j
+            x, col, x + width, col
         );
-        j += gap;
+        col += gap;
     }
     SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 0, 0, 255);
 }
@@ -199,27 +212,31 @@ void renderUI(t_transform *transform)
 		textbox.x = (transform->canvW / 4) - (textbox.w / 2);
 		textbox.y = transform->canvH / 2  - textbox.h;
 		SDLX_RenderMessage(SDLX_Display_Get(),
-		&textbox, (SDL_Color){255, 255, 255}, texts[0]);
+			&textbox, (SDL_Color){255, 255, 255}, texts[0]
+		);
 
 		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[1], &textbox.w, &textbox.h);
 		textbox.x = (3 * (transform->canvW / 4)) - (textbox.w / 2);
 		textbox.y = transform->canvH / 2  - textbox.h;
 		SDLX_RenderMessage(SDLX_Display_Get(),
-		&textbox, (SDL_Color){255, 255, 255}, texts[1]);
+			&textbox, (SDL_Color){255, 255, 255}, texts[1]
+		);
 
 
 		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[2], &textbox.w, &textbox.h);
 		textbox.x = (transform->canvW / 4) - (textbox.w / 2);
 		textbox.y = transform->canvH  - textbox.h;
 		SDLX_RenderMessage(SDLX_Display_Get(),
-		&textbox, (SDL_Color){255, 255, 255}, texts[2]);
+			&textbox, (SDL_Color){255, 255, 255}, texts[2]
+		);
 
 
 		TTF_SizeText(SDLX_Display_Get()->defaultFont, texts[3], &textbox.w, &textbox.h);
 		textbox.x = (3 * (transform->canvW / 4)) - (textbox.w / 2);
 		textbox.y = transform->canvH - textbox.h;
 		SDLX_RenderMessage(SDLX_Display_Get(),
-		&textbox, (SDL_Color){255, 255, 255}, texts[3]);
+			&textbox, (SDL_Color){255, 255, 255}, texts[3]
+		);
 
 		SDLX_RenderMessage_Aligned(
 			SDLX_Display_Get(),
@@ -229,9 +246,5 @@ void renderUI(t_transform *transform)
 			"Visualize mode (tab to switch)"
 		);
 	}
-    // In visualize mode :
-        // - Mouse position in renderer lines (from mouse position in draw space)
-        // - Subscript for each quarter (Image space | Parameter Space | Parameter Space Heatmap | Detected lines)
-        // -
 
 }

@@ -22,7 +22,7 @@ void SDLX_RenderQueues_Init()
 		++i;
 	}
 	queues.count = DEFAULT_QUEUES_COUNT;
-} 
+}
 
 
 void 		SDLX_RenderAll(SDLX_Display *display)
@@ -36,7 +36,6 @@ void 		SDLX_RenderAll(SDLX_Display *display)
 	{
 		current = &(queues.queues[i]);
 		n = 0;
-		// SDL_Log("Queue n %d has %ld", i, current->size);
 		while (n < current->size)
 		{
 			SDL_RenderCopyEx(
@@ -49,7 +48,7 @@ void 		SDLX_RenderAll(SDLX_Display *display)
 				current->sprites[n]->flip
 			);
 			++n;
-		} 
+		}
 		++i;
 	}
 }
@@ -136,10 +135,13 @@ void SDLX_RenderMessage_Aligned(SDLX_Display *display, int x_align, int y_align,
 	else if (y_align == SDLX_CENTER_ALIGN)
 		dst.y = (display->win_h / 2) - (dst.h / 2);
 
-	SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
-		NULL, &dst);
-	SDL_FreeSurface(surf);
-}	
+	if (surf)
+	{
+		SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
+			NULL, &dst);
+		SDL_FreeSurface(surf);
+	}
+}
 
 void SDLX_RenderMessage(SDLX_Display *display, SDL_Rect *dst, SDL_Color color, char *text)
 {
@@ -147,7 +149,10 @@ void SDLX_RenderMessage(SDLX_Display *display, SDL_Rect *dst, SDL_Color color, c
 
 	surf = TTF_RenderText_Solid(display->defaultFont, text, color);
 
-	SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
-		NULL, dst);
-	SDL_FreeSurface(surf);
-}	
+	if (surf)
+	{
+		SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
+			NULL, dst);
+		SDL_FreeSurface(surf);
+	}
+}

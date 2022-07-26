@@ -6,7 +6,7 @@ void computeHough( int x, int y, int *arr, int w, int h)
     int angle = 0;
     double theta;
     int d = 0;
-    
+
     // Formula: x cos(theta) + y sin(theta) = d
     while (angle < w)
     {
@@ -20,13 +20,13 @@ void computeHough( int x, int y, int *arr, int w, int h)
     }
 }
 
-int getMax_inRange(t_transform *transform, int pos)
+int getMax_inRange(int *houghSpace, int pos)
 {
     int row;
     int col;
     int maxPos;
     int tryPos;
-    
+
     maxPos = pos;
     col = -SEARCHRANGE;
     while (col <= SEARCHRANGE)
@@ -36,9 +36,9 @@ int getMax_inRange(t_transform *transform, int pos)
         {
             tryPos = pos + ((row * HOUGHSPACE_W) + col);
             if (
-                tryPos >= 0 && 
+                tryPos >= 0 &&
                 tryPos < HOUGHSPACE_W * HOUGHSPACE_H &&
-                    (transform->houghSpace[tryPos] >= transform->houghSpace[maxPos])
+                    (houghSpace[tryPos] >= houghSpace[maxPos])
             )
                 maxPos = tryPos;
             row++;
@@ -50,19 +50,17 @@ int getMax_inRange(t_transform *transform, int pos)
 
 void getLocalMax(t_transform *transform, int start)
 {
-    int i;
+    int prevIndex;
     int nextIndex;
-    int newNext;
 
-    i = start;
-    if (i >= HOUGHSPACE_W * HOUGHSPACE_H || i < 0)
+    if (start >= HOUGHSPACE_W * HOUGHSPACE_H || start < 0)
         return ;
-    nextIndex = i;
+
+    prevIndex = start;
     while (1)
     {
-        i = nextIndex;
-        nextIndex = getMax_inRange(transform, i);
-        if (nextIndex == i)
+        nextIndex = getMax_inRange(transform->houghSpace, prevIndex);
+        if (nextIndex == prevIndex)
         {
             if (transform->maxIndex < 100 && (transform->houghSpace[nextIndex]) >= transform->treshold)
             {
@@ -71,18 +69,18 @@ void getLocalMax(t_transform *transform, int start)
             }
             break ;
         }
-    }
+
+        prevIndex = nextIndex;
+	}
 }
 
 void divideNconquer(t_transform *transform)
 {
     int stepX;
     int stepY;
-    int n;
-    int i;
     int currX;
     int currY;
-    
+
     stepX = HOUGHSPACE_W / DIVIDE_X;
     stepY = HOUGHSPACE_H / DIVIDE_Y;
     currX = 0;
@@ -97,12 +95,13 @@ void divideNconquer(t_transform *transform)
         }
         currX += stepX;
     }
-   
+
 }
 
 void compute(t_transform *transform)
 {
     renderDrawSpace(transform);
+
     if (transform->canDraw)
         draw(transform);
     else
