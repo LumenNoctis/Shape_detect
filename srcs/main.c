@@ -33,6 +33,7 @@ t_transform *init(void)
 			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
 			DRAWSPACE_W, DRAWSPACE_H
 		);
+
 	transform->searchTex = SDL_CreateTexture(
 			SDLX_Display_Get()->renderer,
 			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,

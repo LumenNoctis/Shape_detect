@@ -12,6 +12,8 @@ void renderMaximums(t_transform *transform, int x_off, int y_off)
         houghSpace_toScreen(transform->maximums[i], &point.x, &point.y, transform->canvW / 2, transform->canvW / 2);
         point.x = point.x + x_off - point.w;
         point.y = point.y + y_off - point.h;
+		if (point.y <= transform->canvH / 2)
+			point.y = transform->canvH / 2;
         SDL_SetRenderDrawColor(SDLX_Display_Get()->renderer, 0, 255, 100, 255);
         SDL_RenderDrawRect(
             SDLX_Display_Get()->renderer, &point);
@@ -102,15 +104,30 @@ void renderLinesUnbound(t_transform *transform)
         d = (transform->maximums[i] / HOUGHSPACE_W);
         theta = (transform->maximums[i] % HOUGHSPACE_W);
         // SDL_Log("Theta %f distance %f", theta, d);
-        theta = (theta * M_PI) / 180;
+        theta = (theta * M_PI) / (double)180;
 
-        y1 = -(0 * cos(theta) - d) / sin(theta);
-        y2 = -(transform->canvW * cos(theta) - d) / sin(theta);
-        SDL_RenderDrawLine(
-            display->renderer,
-            0, y1,
-            transform->canvW, y2
-        );
+		if (theta == 0.0f)// If theta is 0, the line is vertical. Computing the equations give inf, so we just draw a vertical line
+		{
+			SDL_RenderDrawLine(
+				display->renderer,
+				d, 0,
+				d, transform->canvH
+			);
+		}
+		else
+		{
+			y1 = -(0 * cos(theta) - d) / sin(theta);
+			y2 = -(transform->canvW * cos(theta) - d) / sin(theta);
+
+			// if (isinf(y2))
+			// 	y2 = transform->canvH;
+			SDL_Log("Theta %f , d %d, y1 %f, y2%f at position %d | %d", theta, d, y1, y2, i, isinf(y2));
+			SDL_RenderDrawLine(
+				display->renderer,
+				0, y1,
+				transform->canvW, y2
+			);
+		}
 
     }
     SDL_SetRenderTarget(display->renderer, NULL);

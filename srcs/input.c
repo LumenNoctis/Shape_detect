@@ -54,14 +54,14 @@ void handleInput(t_transform *transform)
 		transform->visualizer.shouldUpdate = 1;
 		transform->treshold++;
 		transform->maxIndex = 0;
-		SDL_Log("New threshoed %d", transform->treshold);
+		SDL_Log("New threshold %d", transform->treshold);
 		resetVisualizer(transform);
 	}
 	if (transform->mode == MODE_VISUALIZE && SDLX_GetKeyMapState(SDLX_RIGHT) == SDLX_KEYUP)
 	{
 		transform->visualizer.shouldUpdate = 1;
 		transform->treshold--;
-		SDL_Log("New threshoed %d", transform->treshold);
+		SDL_Log("New threshold %d", transform->treshold);
 		transform->maxIndex = 0;
 		resetVisualizer(transform);
 	}

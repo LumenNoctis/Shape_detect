@@ -28,13 +28,14 @@ int unrolled_MaxInRange(int range, int *arr, int w, int arraySize, int pos, t_tr
             tryPos = pos + ((row * w) + col);
             if (tryPos >= 0 && tryPos < arraySize)
             {
-                if (arr[tryPos] >= arr[maxPos])
+                if (arr[tryPos] > arr[maxPos])
                     maxPos = tryPos;
             }
             row++;
         }
         col++;
     }
+	// SDL_Log("Macpos here at %d is %d", maxPos, arr[maxPos]);
     return maxPos;
 }
 
@@ -51,8 +52,10 @@ int unrolled_LocalMax(t_transform *transform, int arrLen, int start, int w)
     transform->visualizer.nextIndex = unrolled_MaxInRange(SEARCHRANGE, transform->houghSpace, w, arrLen, start, transform);
     if (transform->visualizer.nextIndex == start)
     {
-        if (transform->maxIndex < 100 && transform->houghSpace[transform->visualizer.nextIndex] > transform->treshold)
+        if (transform->maxIndex < 100 && transform->houghSpace[transform->visualizer.nextIndex] >= transform->treshold &&
+		transform->visualizer.nextIndex != transform->maximums[transform->maxIndex])
         {
+			SDL_Log("Addded! %d at position %d", transform->houghSpace[transform->visualizer.nextIndex], transform->maxIndex);
             transform->maximums[transform->maxIndex] = transform->visualizer.nextIndex;
             transform->maxIndex++;
         }

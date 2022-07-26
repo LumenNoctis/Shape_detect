@@ -42,3 +42,11 @@ void resetTransform(t_transform *transform)
 	memset(transform->houghSpace, 0, sizeof(int) * HOUGHSPACE_W * HOUGHSPACE_H);
 }
 
+Uint8 getPixelColour(SDL_Surface *surface, int x, int y)
+{
+	int bpp = surface->format->BytesPerPixel;
+
+    Uint8 *pixel = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+	// SDL_Log("This is pixel %p and foudn %p", surface->pixels, pixel);
+	return *pixel;
+}

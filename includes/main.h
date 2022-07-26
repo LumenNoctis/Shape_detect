@@ -29,7 +29,7 @@
 # define M_PI 3.14159265358979323846
 #endif
 
-# define MAXTHRESHOLD 4
+# define MAXTHRESHOLD 9
 
 typedef struct  s_visualizer
 {
@@ -41,7 +41,7 @@ typedef struct  s_visualizer
 typedef struct s_transform
 {
     SDL_Texture *drawSpace;
-    SDL_Texture *searchTex;
+	SDL_Texture *searchTex;//This is the texture for the lines and blue box
     SDL_Texture *lines;
     t_visualizer visualizer;
 
@@ -78,6 +78,7 @@ void 	renderUI(t_transform *transform);
 
 int     scaleNumber_toRange(int input, SDL_Point fromRange, SDL_Point toRange);
 void    houghSpace_toScreen(int position, int *x, int *y, int w, int h);
+Uint8 	getPixelColour(SDL_Surface *surface, int x, int y);
 
 void    resetVisualizer(t_transform *transform);
 void    resetTransform(t_transform *transform);
