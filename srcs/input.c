@@ -3,6 +3,15 @@
     #include <emscripten.h>
 #endif
 
+void cleanup(t_transform *transform)
+{
+	SDL_DestroyTexture(transform->drawSpace);
+	SDL_DestroyTexture(transform->searchTex);
+	SDL_DestroyTexture(transform->lines);
+	SDL_free(transform);
+	exit(0);
+}
+
 void handleInput(t_transform *transform)
 {
 	SDLX_Display *display;
@@ -13,10 +22,9 @@ void handleInput(t_transform *transform)
     while (SDL_PollEvent(&event))
     {
 		#ifndef __EMSCRIPTEN__
-			if (event.type == SDL_QUIT)
-				exit(0);
-			if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-				exit(0);
+			if (event.type == SDL_QUIT || event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+				cleanup(transform);
+
 		#endif
 
 		if  (event.type == SDL_WINDOWEVENT)

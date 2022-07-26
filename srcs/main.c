@@ -16,7 +16,7 @@ t_transform *init(void)
 	SDLX_InputMap(SDL_SCANCODE_LEFT,	1, SDLX_LEFT, 	1, -1);
 	SDLX_InputMap(SDL_SCANCODE_RIGHT,	1, SDLX_RIGHT,	1, -1);
 
-	transform = calloc(1, sizeof(t_transform));
+	transform = SDL_calloc(1, sizeof(t_transform));
 	transform->treshold = MAXTHRESHOLD;
 	transform->prevX = -1;
 	transform->prevY = -1;
