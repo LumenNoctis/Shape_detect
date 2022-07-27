@@ -29,7 +29,7 @@
 # define M_PI 3.14159265358979323846
 #endif
 
-# define MAXTHRESHOLD 22
+# define MAXTHRESHOLD 40
 
 typedef struct  s_visualizer
 {
@@ -43,6 +43,14 @@ typedef struct s_transform
     SDL_Texture *drawSpace;
 	SDL_Texture *searchTex;//This is the texture for the lines and blue box
     SDL_Texture *lines;
+
+	//UI textures
+	SDL_Texture *drawText;
+	SDL_Texture *edgeText;//This is the texture for the lines and blue box
+    SDL_Texture *quadrantText[4];
+	SDL_Texture *drawModeText;
+	SDL_Texture *visualizeModeText;
+
     t_visualizer visualizer;
 
     int treshold;
@@ -57,6 +65,8 @@ typedef struct s_transform
     int prevX;
     int prevY;
 }               t_transform;
+
+void	init(t_transform *transform);
 
 int     draw(t_transform *transform);
 void    handleInput(t_transform *transform);

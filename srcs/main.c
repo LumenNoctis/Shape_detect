@@ -4,68 +4,30 @@
 #endif
 
 static SDLX_Display  	*display;
-static t_transform		*transform;
-
-t_transform *init(void)
-{
-	t_transform *transform;
-
-	SDLX_InputMap(SDL_SCANCODE_TAB, 	1, SDLX_TOGGLE, 1, -1);
-	SDLX_InputMap(SDL_SCANCODE_SPACE,	1, SDLX_PAUSE, 	1, -1);
-	SDLX_InputMap(SDL_SCANCODE_R, 		1, SDLX_RESTART,1, -1);
-	SDLX_InputMap(SDL_SCANCODE_LEFT,	1, SDLX_LEFT, 	1, -1);
-	SDLX_InputMap(SDL_SCANCODE_RIGHT,	1, SDLX_RIGHT,	1, -1);
-
-	transform = SDL_calloc(1, sizeof(t_transform));
-	transform->treshold = MAXTHRESHOLD;
-	transform->prevX = -1;
-	transform->prevY = -1;
-	transform->canDraw = 1;
-	transform->canvW = WINDOW_W;
-	transform->canvH = WINDOW_H;
-	transform->drawSpace = SDL_CreateTexture(
-			SDLX_Display_Get()->renderer,
-			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-			DRAWSPACE_W, DRAWSPACE_H
-		);
-	transform->lines = SDL_CreateTexture(
-			SDLX_Display_Get()->renderer,
-			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-			DRAWSPACE_W, DRAWSPACE_H
-		);
-
-	transform->searchTex = SDL_CreateTexture(
-			SDLX_Display_Get()->renderer,
-			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-			DRAWSPACE_W, DRAWSPACE_H
-		);
-	SDL_SetTextureBlendMode(transform->lines, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(transform->drawSpace, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(transform->searchTex, SDL_BLENDMODE_BLEND);
-	return transform;
-}
+static t_transform		transform;
 
 void mainLoop(void)
 {
 	SDLX_Render_Reset(display);
 	SDLX_Input_Update();
 	SDLX_InputLoop();
-	handleInput(transform);
-	if (transform->mode == MODE_VISUALIZE)
-		visualizer(transform);
+	handleInput(&transform);
+	if (transform.mode == MODE_VISUALIZE)
+		visualizer(&transform);
 	else
-		compute(transform);
+		compute(&transform);
 
-	renderUI(transform);
+	// renderUI(transform);
 	SDL_RenderPresent(display->renderer);
 }
 
 int main(void)
 {
 	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, 0);
-	display = SDLX_Display_Get();
 
-	transform =	init();
+	display = SDLX_Display_Get();
+	init(&transform);
+
 
 	#ifdef __EMSCRIPTEN__
 			emscripten_set_main_loop(mainLoop, 0, 1);

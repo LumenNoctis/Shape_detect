@@ -57,7 +57,7 @@ int unrolled_MaxInRange(t_transform *transform, int pos)
             tryPos = pos + ((row * HOUGHSPACE_W) + col);
             if (tryPos >= 0 && tryPos < (HOUGHSPACE_W * HOUGHSPACE_H))
             {
-                if (transform->houghSpace[tryPos] > transform->houghSpace[maxPos])
+                if (transform->houghSpace[tryPos] >= transform->houghSpace[maxPos])
                     maxPos = tryPos;
             }
             row++;

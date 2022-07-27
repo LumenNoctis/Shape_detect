@@ -1,8 +1,8 @@
 NAME = draw
 
 DEBUG_FLAGS = -fsanitize=address -g
-FLAGS = 
-INCLUDES = -I includes/ -I includes/SDL2/ -I includes/MT/ -I includes/SDLX/ 
+FLAGS =
+INCLUDES = -I includes/ -I includes/SDL2/ -I includes/MT/ -I includes/SDLX/
 
 LIB_DIR = libs/
 LIBRARIES= -l SDL2 -l SDL2_image -l SDL2_ttf -lm
@@ -29,6 +29,7 @@ SRC_FILES =			\
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))	\
 	compute				\
 	draw				\
+	init 				\
 	input               \
 	main				\
 	render				\
@@ -47,7 +48,7 @@ run: all
 $(NAME): $(BIN_DIR) $(OBJS)
 	gcc $(FLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBRARIES) $(DEBUG_FLAGS)
 
-wasm: 
+wasm:
 	emcc -O2 -0S$(SRCS) $(INCLUDES) -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s USE_SDL_TTF=2 \
 	--preload-file srcs/SDLX/defsault.ttf -o $(NAME).js
 

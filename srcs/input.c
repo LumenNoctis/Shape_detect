@@ -8,7 +8,16 @@ void cleanup(t_transform *transform)
 	SDL_DestroyTexture(transform->drawSpace);
 	SDL_DestroyTexture(transform->searchTex);
 	SDL_DestroyTexture(transform->lines);
+	SDL_DestroyTexture(transform->drawText);
+	SDL_DestroyTexture(transform->edgeText);
+	SDL_DestroyTexture(transform->drawModeText);
+	SDL_DestroyTexture(transform->visualizeModeText);
+	SDL_DestroyTexture(transform->quadrantText[0]);
+	SDL_DestroyTexture(transform->quadrantText[1]);
+	SDL_DestroyTexture(transform->quadrantText[2]);
+	SDL_DestroyTexture(transform->quadrantText[3]);
 	SDL_free(transform);
+
 	exit(0);
 }
 
@@ -77,6 +86,7 @@ void handleInput(t_transform *transform)
 	}
 	else if(input.mouse_state)
 	{
+		transform->visualizer.shouldUpdate = 0;
 		resetVisualizer(transform);
 	}
 }

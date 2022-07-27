@@ -12,9 +12,9 @@ void computeHough( int x, int y, int *arr, int w, int h)
     {
         theta = (angle * M_PI) / 180;
         d = x * cos(theta) + y * sin(theta);
-        if (d * w + angle >= 0 && d * w + angle < h * w)
+        if ((d * w + angle) >= 0 && (d * w + angle) < (h * w))
         {
-            arr[d * w + angle] += 1;
+            arr[(d * w + angle)] += 1;
         }
         angle++;
     }
