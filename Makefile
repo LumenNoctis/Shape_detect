@@ -53,7 +53,7 @@ wasm:
 	--preload-file srcs/SDLX/defsault.ttf -o $(NAME).js
 
 react:
-	emcc -O2 $(SRCS) $(INCLUDES)\
+	emcc -O2 $(SRCS) $(INCLUDES) \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
 	-s WASM=0 \
@@ -62,7 +62,7 @@ react:
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
 	--preload-file srcs/SDLX/default.ttf \
-	-o test.js
+	-o draw.js
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)

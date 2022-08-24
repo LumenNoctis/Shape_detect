@@ -112,6 +112,7 @@ SDLX_RenderQueue *SDLX_RenderQueue_Get(uint32_t id)
 void SDLX_RenderMessage_Aligned(SDLX_Display *display, int x_align, int y_align, SDL_Color color, char *text)
 {
 	SDL_Surface *surf;
+	SDL_Texture *tex;
 	SDL_Rect 	dst;
 
 	if (!display->defaultFont)
@@ -135,10 +136,10 @@ void SDLX_RenderMessage_Aligned(SDLX_Display *display, int x_align, int y_align,
 	else if (y_align == SDLX_CENTER_ALIGN)
 		dst.y = (display->win_h / 2) - (dst.h / 2);
 
-	if (surf)
+	tex = SDL_CreateTextureFromSurface(display->renderer, surf);
+	if (surf && tex)
 	{
-		SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
-			NULL, &dst);
+		SDL_RenderCopy(display->renderer,tex, NULL, &dst);
 		SDL_FreeSurface(surf);
 	}
 }
@@ -146,13 +147,13 @@ void SDLX_RenderMessage_Aligned(SDLX_Display *display, int x_align, int y_align,
 void SDLX_RenderMessage(SDLX_Display *display, SDL_Rect *dst, SDL_Color color, char *text)
 {
 	SDL_Surface *surf;
-
+	SDL_Texture *tex;
 	surf = TTF_RenderText_Solid(display->defaultFont, text, color);
+	tex = SDL_CreateTextureFromSurface(display->renderer, surf);
 
-	if (surf)
+	if (surf && tex)
 	{
-		SDL_RenderCopy(display->renderer, SDL_CreateTextureFromSurface(display->renderer, surf),
-			NULL, dst);
+		SDL_RenderCopy(display->renderer, tex, NULL, dst);
 		SDL_FreeSurface(surf);
 	}
 }
