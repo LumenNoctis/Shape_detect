@@ -46,14 +46,14 @@ SDL2 may be installed by default depending on your OS. It is available in most L
 You may download it here https://wiki.libsdl.org/Installation
 
 To use this program :
-```
+````
 git clone https://github.com/LumenNoctis/Shape_detect/
 cd Shape_detect
 ./draw
 ````
 If you are on Linux chances are the executable will just work
 Otherwise you may compile this yourself
-````
+```
 make re
 ./draw
 ```
