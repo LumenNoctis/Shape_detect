@@ -168,12 +168,12 @@ void visualizer(t_transform *transform)
     renderHoughSpace_AsHeathMap(transform, rect.x, rect.y);
     renderMaximums(transform, rect.x, rect.y);
 
-	if (transform->visualizer.shouldUpdate == 1)
-    {
-        if (unrolled_Divide(transform))
-            transform->visualizer.shouldUpdate++;
-        SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->searchTex, NULL, &rect);
-    }
+	// if (transform->visualizer.shouldUpdate == 1)
+    // {
+    //     if (unrolled_Divide(transform))
+    //         transform->visualizer.shouldUpdate++;
+    //     SDL_RenderCopy(SDLX_Display_Get()->renderer, transform->searchTex, NULL, &rect);
+    // }
 
 	rect.x += transform->canvW / 2;
     renderLinesUnbound(transform);

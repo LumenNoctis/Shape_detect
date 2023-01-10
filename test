@@ -1,0 +1,1478 @@
+{
+  "id": 1,
+  "type": "root",
+  "orientation": "horizontal",
+  "percent": null,
+  "urgent": false,
+  "marks": [
+  ],
+  "focused": false,
+  "layout": "splith",
+  "border": "none",
+  "current_border_width": 0,
+  "rect": {
+    "x": -1920,
+    "y": -1080,
+    "width": 5760,
+    "height": 2160
+  },
+  "deco_rect": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "window_rect": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "geometry": {
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  "name": "root",
+  "window": null,
+  "nodes": [
+    {
+      "id": 2147483647,
+      "type": "output",
+      "orientation": "horizontal",
+      "percent": null,
+      "urgent": false,
+      "marks": [
+      ],
+      "focused": false,
+      "layout": "output",
+      "border": "none",
+      "current_border_width": 0,
+      "rect": {
+        "x": -1920,
+        "y": -1080,
+        "width": 5760,
+        "height": 2160
+      },
+      "deco_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "window_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "name": "__i3",
+      "window": null,
+      "nodes": [
+        {
+          "id": 2147483646,
+          "type": "workspace",
+          "orientation": "horizontal",
+          "percent": null,
+          "urgent": false,
+          "marks": [
+          ],
+          "focused": false,
+          "layout": "splith",
+          "border": "none",
+          "current_border_width": 0,
+          "rect": {
+            "x": -1920,
+            "y": -1080,
+            "width": 5760,
+            "height": 2160
+          },
+          "deco_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "window_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "name": "__i3_scratch",
+          "window": null,
+          "nodes": [
+          ],
+          "floating_nodes": [
+          ],
+          "focus": [
+          ],
+          "fullscreen_mode": 1,
+          "sticky": false
+        }
+      ],
+      "floating_nodes": [
+      ],
+      "focus": [
+        2147483646
+      ],
+      "fullscreen_mode": 0,
+      "sticky": false
+    },
+    {
+      "id": 3,
+      "type": "output",
+      "orientation": "none",
+      "percent": 0.16666666666666666,
+      "urgent": false,
+      "marks": [
+      ],
+      "focused": false,
+      "layout": "output",
+      "border": "none",
+      "current_border_width": 0,
+      "rect": {
+        "x": 0,
+        "y": -1080,
+        "width": 1920,
+        "height": 1080
+      },
+      "deco_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "window_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "name": "eDP-1",
+      "window": null,
+      "nodes": [
+        {
+          "id": 4,
+          "type": "workspace",
+          "orientation": "vertical",
+          "percent": null,
+          "urgent": false,
+          "marks": [
+          ],
+          "focused": false,
+          "layout": "splitv",
+          "border": "none",
+          "current_border_width": 0,
+          "rect": {
+            "x": 0,
+            "y": -1060,
+            "width": 1920,
+            "height": 1060
+          },
+          "deco_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "window_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "name": "1",
+          "window": null,
+          "nodes": [
+            {
+              "id": 13,
+              "type": "con",
+              "orientation": "none",
+              "percent": 0.5,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": false,
+              "layout": "none",
+              "border": "normal",
+              "current_border_width": 2,
+              "rect": {
+                "x": 0,
+                "y": -1038,
+                "width": 1920,
+                "height": 508
+              },
+              "deco_rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 22
+              },
+              "window_rect": {
+                "x": 2,
+                "y": 0,
+                "width": 1916,
+                "height": 506
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 800,
+                "height": 600
+              },
+              "name": "Alacritty",
+              "window": null,
+              "nodes": [
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false,
+              "pid": 1963,
+              "app_id": "Alacritty",
+              "visible": true,
+              "max_render_time": 0,
+              "shell": "xdg_shell",
+              "inhibit_idle": false,
+              "idle_inhibitors": {
+                "user": "none",
+                "application": "none"
+              }
+            },
+            {
+              "id": 16,
+              "type": "con",
+              "orientation": "horizontal",
+              "percent": 0.5,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": false,
+              "layout": "splith",
+              "border": "none",
+              "current_border_width": 0,
+              "rect": {
+                "x": 0,
+                "y": -530,
+                "width": 1920,
+                "height": 530
+              },
+              "deco_rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "window_rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "name": null,
+              "window": null,
+              "nodes": [
+                {
+                  "id": 11,
+                  "type": "con",
+                  "orientation": "none",
+                  "percent": 1.0,
+                  "urgent": false,
+                  "marks": [
+                  ],
+                  "focused": false,
+                  "layout": "none",
+                  "border": "normal",
+                  "current_border_width": 2,
+                  "rect": {
+                    "x": 0,
+                    "y": -508,
+                    "width": 1920,
+                    "height": 508
+                  },
+                  "deco_rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1920,
+                    "height": 22
+                  },
+                  "window_rect": {
+                    "x": 2,
+                    "y": 0,
+                    "width": 1916,
+                    "height": 506
+                  },
+                  "geometry": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 800,
+                    "height": 600
+                  },
+                  "name": "Alacritty",
+                  "window": null,
+                  "nodes": [
+                  ],
+                  "floating_nodes": [
+                  ],
+                  "focus": [
+                  ],
+                  "fullscreen_mode": 0,
+                  "sticky": false,
+                  "pid": 882,
+                  "app_id": "Alacritty",
+                  "visible": true,
+                  "max_render_time": 0,
+                  "shell": "xdg_shell",
+                  "inhibit_idle": false,
+                  "idle_inhibitors": {
+                    "user": "none",
+                    "application": "none"
+                  }
+                }
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+                11
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false
+            }
+          ],
+          "floating_nodes": [
+          ],
+          "focus": [
+            16,
+            13
+          ],
+          "fullscreen_mode": 1,
+          "sticky": false,
+          "num": 1,
+          "output": "eDP-1",
+          "representation": "V[Alacritty H[Alacritty]]"
+        }
+      ],
+      "floating_nodes": [
+      ],
+      "focus": [
+        4
+      ],
+      "fullscreen_mode": 0,
+      "sticky": false,
+      "primary": false,
+      "make": "IVO",
+      "model": "0x8584",
+      "serial": "Unknown",
+      "modes": [
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 60010,
+          "picture_aspect_ratio": "none"
+        }
+      ],
+      "non_desktop": false,
+      "active": true,
+      "dpms": true,
+      "power": true,
+      "scale": 1.0,
+      "scale_filter": "nearest",
+      "transform": "normal",
+      "adaptive_sync_status": "disabled",
+      "current_workspace": "1",
+      "current_mode": {
+        "width": 1920,
+        "height": 1080,
+        "refresh": 60010,
+        "picture_aspect_ratio": "none"
+      },
+      "max_render_time": 0
+    },
+    {
+      "id": 5,
+      "type": "output",
+      "orientation": "none",
+      "percent": 0.16666666666666666,
+      "urgent": false,
+      "marks": [
+      ],
+      "focused": false,
+      "layout": "output",
+      "border": "none",
+      "current_border_width": 0,
+      "rect": {
+        "x": -1920,
+        "y": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "deco_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "window_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "name": "DP-3",
+      "window": null,
+      "nodes": [
+        {
+          "id": 6,
+          "type": "workspace",
+          "orientation": "horizontal",
+          "percent": null,
+          "urgent": false,
+          "marks": [
+          ],
+          "focused": false,
+          "layout": "splith",
+          "border": "none",
+          "current_border_width": 0,
+          "rect": {
+            "x": -1920,
+            "y": 20,
+            "width": 1920,
+            "height": 1060
+          },
+          "deco_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "window_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "name": "2",
+          "window": null,
+          "nodes": [
+            {
+              "id": 17,
+              "type": "con",
+              "orientation": "none",
+              "percent": 1.0,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": false,
+              "layout": "none",
+              "border": "normal",
+              "current_border_width": 2,
+              "rect": {
+                "x": -1920,
+                "y": 42,
+                "width": 1920,
+                "height": 1038
+              },
+              "deco_rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 22
+              },
+              "window_rect": {
+                "x": 2,
+                "y": 0,
+                "width": 1916,
+                "height": 1036
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 800,
+                "height": 600
+              },
+              "name": "Alacritty",
+              "window": null,
+              "nodes": [
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false,
+              "pid": 3509,
+              "app_id": "Alacritty",
+              "visible": true,
+              "max_render_time": 0,
+              "shell": "xdg_shell",
+              "inhibit_idle": false,
+              "idle_inhibitors": {
+                "user": "none",
+                "application": "none"
+              }
+            }
+          ],
+          "floating_nodes": [
+            {
+              "id": 39,
+              "type": "floating_con",
+              "orientation": "none",
+              "percent": 0.12976415094339624,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": false,
+              "layout": "none",
+              "border": "normal",
+              "current_border_width": 2,
+              "rect": {
+                "x": -1212,
+                "y": 300,
+                "width": 504,
+                "height": 502
+              },
+              "deco_rect": {
+                "x": 708,
+                "y": 258,
+                "width": 504,
+                "height": 22
+              },
+              "window_rect": {
+                "x": 2,
+                "y": 0,
+                "width": 500,
+                "height": 500
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 500,
+                "height": 500
+              },
+              "name": "Shape detection",
+              "window": null,
+              "nodes": [
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false,
+              "pid": 64776,
+              "app_id": "draw",
+              "visible": true,
+              "max_render_time": 0,
+              "shell": "xdg_shell",
+              "inhibit_idle": true,
+              "idle_inhibitors": {
+                "user": "none",
+                "application": "enabled"
+              }
+            }
+          ],
+          "focus": [
+            39,
+            17
+          ],
+          "fullscreen_mode": 1,
+          "sticky": false,
+          "num": 2,
+          "output": "DP-3",
+          "representation": "H[Alacritty]"
+        }
+      ],
+      "floating_nodes": [
+      ],
+      "focus": [
+        6
+      ],
+      "fullscreen_mode": 0,
+      "sticky": false,
+      "primary": false,
+      "make": "Hewlett Packard",
+      "model": "HP 22cwa",
+      "serial": "6CM1130M4J",
+      "modes": [
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1680,
+          "height": 1050,
+          "refresh": 59883,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1600,
+          "height": 900,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 1024,
+          "refresh": 60020,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1440,
+          "height": 900,
+          "refresh": 59901,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "refresh": 59910,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "refresh": 60004,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 800,
+          "height": 600,
+          "refresh": 60317,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 400,
+          "refresh": 70082,
+          "picture_aspect_ratio": "none"
+        }
+      ],
+      "non_desktop": false,
+      "active": true,
+      "dpms": true,
+      "power": true,
+      "scale": 1.0,
+      "scale_filter": "nearest",
+      "transform": "normal",
+      "adaptive_sync_status": "disabled",
+      "current_workspace": "2",
+      "current_mode": {
+        "width": 1920,
+        "height": 1080,
+        "refresh": 60000,
+        "picture_aspect_ratio": "none"
+      },
+      "max_render_time": 0
+    },
+    {
+      "id": 7,
+      "type": "output",
+      "orientation": "none",
+      "percent": 0.16666666666666666,
+      "urgent": false,
+      "marks": [
+      ],
+      "focused": false,
+      "layout": "output",
+      "border": "none",
+      "current_border_width": 0,
+      "rect": {
+        "x": 1920,
+        "y": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "deco_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "window_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "name": "DP-4",
+      "window": null,
+      "nodes": [
+        {
+          "id": 8,
+          "type": "workspace",
+          "orientation": "horizontal",
+          "percent": null,
+          "urgent": false,
+          "marks": [
+          ],
+          "focused": false,
+          "layout": "splith",
+          "border": "none",
+          "current_border_width": 0,
+          "rect": {
+            "x": 1920,
+            "y": 20,
+            "width": 1920,
+            "height": 1060
+          },
+          "deco_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "window_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "name": "3",
+          "window": null,
+          "nodes": [
+          ],
+          "floating_nodes": [
+            {
+              "id": 14,
+              "type": "floating_con",
+              "orientation": "none",
+              "percent": 0.62837264150943395,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": false,
+              "layout": "none",
+              "border": "normal",
+              "current_border_width": 2,
+              "rect": {
+                "x": 2148,
+                "y": 46,
+                "width": 1284,
+                "height": 974
+              },
+              "deco_rect": {
+                "x": 228,
+                "y": 4,
+                "width": 1284,
+                "height": 22
+              },
+              "window_rect": {
+                "x": 2,
+                "y": 0,
+                "width": 1280,
+                "height": 972
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 1280,
+                "height": 972
+              },
+              "name": "[Question] how to get execute application and get its id? : swaywm — Mozilla Firefox",
+              "window": null,
+              "nodes": [
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false,
+              "pid": 2436,
+              "app_id": "firefox",
+              "visible": true,
+              "max_render_time": 0,
+              "shell": "xdg_shell",
+              "inhibit_idle": false,
+              "idle_inhibitors": {
+                "user": "none",
+                "application": "none"
+              }
+            }
+          ],
+          "focus": [
+            14
+          ],
+          "fullscreen_mode": 1,
+          "sticky": false,
+          "num": 3,
+          "output": "DP-4",
+          "representation": "H[]"
+        }
+      ],
+      "floating_nodes": [
+      ],
+      "focus": [
+        8
+      ],
+      "fullscreen_mode": 0,
+      "sticky": false,
+      "primary": false,
+      "make": "Hewlett Packard",
+      "model": "HP 22cwa",
+      "serial": "6CM0340JY1",
+      "modes": [
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1680,
+          "height": 1050,
+          "refresh": 59883,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1600,
+          "height": 900,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 1024,
+          "refresh": 60020,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1440,
+          "height": 900,
+          "refresh": 59901,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "refresh": 59910,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "refresh": 60004,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 800,
+          "height": 600,
+          "refresh": 60317,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 400,
+          "refresh": 70082,
+          "picture_aspect_ratio": "none"
+        }
+      ],
+      "non_desktop": false,
+      "active": true,
+      "dpms": true,
+      "power": true,
+      "scale": 1.0,
+      "scale_filter": "nearest",
+      "transform": "normal",
+      "adaptive_sync_status": "disabled",
+      "current_workspace": "3",
+      "current_mode": {
+        "width": 1920,
+        "height": 1080,
+        "refresh": 60000,
+        "picture_aspect_ratio": "none"
+      },
+      "max_render_time": 0
+    },
+    {
+      "id": 9,
+      "type": "output",
+      "orientation": "none",
+      "percent": 0.16666666666666666,
+      "urgent": false,
+      "marks": [
+      ],
+      "focused": false,
+      "layout": "output",
+      "border": "none",
+      "current_border_width": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "deco_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "window_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "name": "DP-5",
+      "window": null,
+      "nodes": [
+        {
+          "id": 10,
+          "type": "workspace",
+          "orientation": "horizontal",
+          "percent": null,
+          "urgent": false,
+          "marks": [
+          ],
+          "focused": false,
+          "layout": "splith",
+          "border": "none",
+          "current_border_width": 0,
+          "rect": {
+            "x": 0,
+            "y": 20,
+            "width": 1920,
+            "height": 1060
+          },
+          "deco_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "window_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "name": "4",
+          "window": null,
+          "nodes": [
+          ],
+          "floating_nodes": [
+            {
+              "id": 28,
+              "type": "floating_con",
+              "orientation": "none",
+              "percent": 1.0,
+              "urgent": false,
+              "marks": [
+              ],
+              "focused": true,
+              "layout": "none",
+              "border": "normal",
+              "current_border_width": 2,
+              "rect": {
+                "x": 0,
+                "y": 42,
+                "width": 1920,
+                "height": 1038
+              },
+              "deco_rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 22
+              },
+              "window_rect": {
+                "x": 2,
+                "y": 0,
+                "width": 1916,
+                "height": 1036
+              },
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 1916,
+                "height": 1036
+              },
+              "name": "config - shape_detect - Code - OSS",
+              "window": null,
+              "nodes": [
+              ],
+              "floating_nodes": [
+              ],
+              "focus": [
+              ],
+              "fullscreen_mode": 0,
+              "sticky": false,
+              "pid": 57073,
+              "app_id": "code-oss",
+              "visible": true,
+              "max_render_time": 0,
+              "shell": "xdg_shell",
+              "inhibit_idle": false,
+              "idle_inhibitors": {
+                "user": "none",
+                "application": "none"
+              }
+            }
+          ],
+          "focus": [
+            28
+          ],
+          "fullscreen_mode": 1,
+          "sticky": false,
+          "num": 4,
+          "output": "DP-5",
+          "representation": "H[]"
+        }
+      ],
+      "floating_nodes": [
+      ],
+      "focus": [
+        10
+      ],
+      "fullscreen_mode": 0,
+      "sticky": false,
+      "primary": false,
+      "make": "Hewlett Packard",
+      "model": "HP 22cwa",
+      "serial": "6CM03803TN",
+      "modes": [
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1680,
+          "height": 1050,
+          "refresh": 59883,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1600,
+          "height": 900,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 1024,
+          "refresh": 60020,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1440,
+          "height": 900,
+          "refresh": 59901,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "refresh": 59910,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "refresh": 60004,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 800,
+          "height": 600,
+          "refresh": 60317,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 576,
+          "refresh": 50000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "16:9"
+        },
+        {
+          "width": 720,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 60000,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "none"
+        },
+        {
+          "width": 640,
+          "height": 480,
+          "refresh": 59940,
+          "picture_aspect_ratio": "4:3"
+        },
+        {
+          "width": 720,
+          "height": 400,
+          "refresh": 70082,
+          "picture_aspect_ratio": "none"
+        }
+      ],
+      "non_desktop": false,
+      "active": true,
+      "dpms": true,
+      "power": true,
+      "scale": 1.0,
+      "scale_filter": "nearest",
+      "transform": "normal",
+      "adaptive_sync_status": "disabled",
+      "current_workspace": "4",
+      "current_mode": {
+        "width": 1920,
+        "height": 1080,
+        "refresh": 60000,
+        "picture_aspect_ratio": "none"
+      },
+      "max_render_time": 0
+    }
+  ],
+  "floating_nodes": [
+  ],
+  "focus": [
+    9,
+    3,
+    5,
+    7
+  ],
+  "fullscreen_mode": 0,
+  "sticky": false
+}

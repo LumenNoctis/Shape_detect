@@ -23,7 +23,7 @@ void mainLoop(void)
 
 int main(void)
 {
-	SDLX_Start("Shape detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, 0);
+	SDLX_Start("SDLX", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, 0);
 
 	display = SDLX_Display_Get();
 	init(&transform);

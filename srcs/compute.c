@@ -52,12 +52,13 @@ void getLocalMax(t_transform *transform, int start)
 {
     int prevIndex;
     int nextIndex;
-
+	int iter;
     if (start >= HOUGHSPACE_W * HOUGHSPACE_H || start < 0)
         return ;
 
     prevIndex = start;
-    while (1)
+	iter = 0;
+    while (iter < 1000)
     {
         nextIndex = getMax_inRange(transform->houghSpace, prevIndex);
         if (nextIndex == prevIndex)
@@ -69,7 +70,7 @@ void getLocalMax(t_transform *transform, int start)
             }
             break ;
         }
-
+		iter++;
         prevIndex = nextIndex;
 	}
 }
